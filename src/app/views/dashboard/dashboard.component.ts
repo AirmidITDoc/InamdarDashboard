@@ -146,8 +146,19 @@ export class DashboardComponent implements OnInit {
       }
     ]
   };
+  chartPieData1: ChartData = {
+    labels: ['FY 2021-22', 'FY 2022-23', 'FY 2023-24'],
+    datasets: [
+      {
+        data: [20490, 20354, 20250],
+        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+        hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+      }
+    ]
+  };
   public mainChart: IChartProps = { type: 'line' };
   public mainChart1: IChartProps = { type: 'line' };
+  public mainChart2: IChartProps = { type: 'line' };
   public mainChartRef: WritableSignal<any> = signal(undefined);
   #mainChartRefEffect = effect(() => {
     if (this.mainChartRef()) {
@@ -167,6 +178,7 @@ export class DashboardComponent implements OnInit {
   initCharts(): void {
     this.mainChart = this.#chartsData.mainChart;
     this.mainChart1 = this.#chartsData.mainChart1;
+    this.mainChart2 = this.#chartsData.mainChart2;
   }
 
   setTrafficPeriod(value: string): void {

@@ -32,6 +32,7 @@ export class DashboardChartsData {
 
   public mainChart: IChartProps = { type: 'line' };
   public mainChart1: IChartProps = { type: 'line' };
+  public mainChart2: IChartProps = { type: 'line' };
 
   public random(min: number, max: number) {
     return Math.floor(Math.random() * (max - min + 1) + min);
@@ -196,6 +197,29 @@ export class DashboardChartsData {
     this.mainChart1.data={
        datasets:datasets1,
        labels:categorylables
+    }
+
+    const datasets2: ChartDataset[] = [
+      {
+        data: [2394,2373,1672,1552,1630,1785,1836,1429,1287,1531,1694,1307],
+        label: 'FY 2021-22',
+        ...colors[0]
+      },
+      {
+        data: [1064,1204,1473,1646,2430,2278,1815,1560,1768,1538,1635,1943],
+        label: 'FY 2022-23',
+        ...colors[1]
+      },
+      {
+        data: [1297,1269,1516,1746,2144,2102,1928,1620,1550,1917,1593,1568],
+        label: 'FY 2023-24',
+        ...colors[2]
+      }
+    ];
+    let categorylables1: string[] = ['Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar'];
+    this.mainChart2.data={
+       datasets:datasets2,
+       labels:categorylables1
     }
   }
 
