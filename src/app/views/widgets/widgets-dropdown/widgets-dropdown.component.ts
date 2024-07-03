@@ -11,7 +11,22 @@ import { getStyle } from '@coreui/utils';
 import { ChartjsComponent } from '@coreui/angular-chartjs';
 import { RouterLink } from '@angular/router';
 import { IconDirective } from '@coreui/icons-angular';
-import { RowComponent, ColComponent, WidgetStatAComponent, TemplateIdDirective, ThemeDirective, DropdownComponent, ButtonDirective, DropdownToggleDirective, DropdownMenuDirective, DropdownItemDirective, DropdownDividerDirective } from '@coreui/angular';
+import {
+  RowComponent, ModalBodyComponent,
+  ModalComponent,
+  ModalFooterComponent,
+  ModalHeaderComponent,
+  ModalTitleDirective,
+  ColComponent, WidgetStatAComponent, TemplateIdDirective, ThemeDirective, DropdownComponent, ButtonDirective, DropdownToggleDirective, DropdownMenuDirective, DropdownItemDirective, DropdownDividerDirective,
+  CardComponent,
+  CardBodyComponent,
+  TableDirective,
+  ProgressBarDirective,
+  ProgressBarComponent,
+  ProgressComponent
+} from '@coreui/angular';
+import { cilBorderStyle } from '@coreui/icons';
+import { TablesComponent } from '../../base/tables/tables.component';
 
 @Component({
   selector: 'app-widgets-dropdown',
@@ -19,9 +34,23 @@ import { RowComponent, ColComponent, WidgetStatAComponent, TemplateIdDirective, 
   styleUrls: ['./widgets-dropdown.component.scss'],
   changeDetection: ChangeDetectionStrategy.Default,
   standalone: true,
-  imports: [RowComponent, ColComponent, WidgetStatAComponent, TemplateIdDirective, IconDirective, ThemeDirective, DropdownComponent, ButtonDirective, DropdownToggleDirective, DropdownMenuDirective, DropdownItemDirective, RouterLink, DropdownDividerDirective, ChartjsComponent]
+  imports: [RowComponent, ModalBodyComponent,TablesComponent,
+    ModalComponent,
+    ModalFooterComponent,RowComponent,ColComponent,TableDirective,ProgressBarDirective,ProgressBarComponent,ProgressComponent,
+    ModalHeaderComponent,CardComponent,CardBodyComponent,TablesComponent,
+    ModalTitleDirective,
+    ColComponent, WidgetStatAComponent, TemplateIdDirective, IconDirective, ThemeDirective, DropdownComponent, ButtonDirective, DropdownToggleDirective, DropdownMenuDirective, DropdownItemDirective, RouterLink, DropdownDividerDirective, ChartjsComponent]
 })
 export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
+  public visible = false;
+
+  toggleLiveDemo() {
+    this.visible = !this.visible;
+  }
+
+  handleLiveDemoChange(event: any) {
+    this.visible = event;
+  }
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef
@@ -51,20 +80,28 @@ export class WidgetsDropdownComponent implements OnInit, AfterContentInit {
       pointBackgroundColor: getStyle('--cui-primary'),
       pointHoverBorderColor: getStyle('--cui-primary'),
       data: [56101937, 58489491, 68344583, 74124657, 85024767, 80417275, 79937505, 67939789, 68293448, 78460596, 62470644, 70395309]
+    }, {
+      label: '[Target 23-24] ',
+      backgroundColor: 'transparent',
+      borderColor: 'red',
+      pointBackgroundColor: getStyle('--cui-secondary'),
+      pointHoverBorderColor: getStyle('--cui-secondary'),
+      borderDash: [1, 2],
+      data: [5610193, 5848912, 6834283, 7413457, 8503267, 8041275, 7993705, 6793289, 6894348, 7846596, 6245064, 70366309]
     }], [{
       label: '[Grand Total] ',
       backgroundColor: 'transparent',
       borderColor: 'rgba(255,255,255,.55)',
       pointBackgroundColor: getStyle('--cui-info'),
       pointHoverBorderColor: getStyle('--cui-info'),
-      data: [ 48354860,50412718,58906927,63888835,73283756,69312509,68898991,58558031,58862853,67626027,53844116,60674470]
+      data: [48354860, 50412718, 58906927, 63888835, 73283756, 69312509, 68898991, 58558031, 58862853, 67626027, 53844116, 60674470]
     }], [{
       label: '[Difference (Grand total - Target)] ',
       backgroundColor: 'rgba(255,255,255,.2)',
       borderColor: 'rgba(255,255,255,.55)',
       pointBackgroundColor: getStyle('--cui-warning'),
       pointHoverBorderColor: getStyle('--cui-warning'),
-      data: [48354860-56101937, 50412718-58489491, 58906927-68344583, 63888835-74124657, 73283756-85024767, 69312509-80417275, 68898991-79937505, 58558031-67939789, 58862853-68293448, 67626027-78460596, 53844116-62470644, 60674470-70395309],
+      data: [48354860 - 56101937, 50412718 - 58489491, 58906927 - 68344583, 63888835 - 74124657, 73283756 - 85024767, 69312509 - 80417275, 68898991 - 79937505, 58558031 - 67939789, 58862853 - 68293448, 67626027 - 78460596, 53844116 - 62470644, 60674470 - 70395309],
       fill: true
     }], [{
       label: 'My Fourth dataset',

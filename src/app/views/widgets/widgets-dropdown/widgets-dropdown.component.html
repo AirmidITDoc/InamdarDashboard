@@ -1,9 +1,6 @@
 <c-row class="g-4">
   <c-col sm="6" xl="4">
-    <c-widget-stat-a
-      color="primary"
-      [title]="'Target 24-25'"
-    >
+    <c-widget-stat-a color="primary" [title]="'Target 24-25'">
       <ng-template cTemplateId="widgetValueTemplate" ngPreserveWhitespaces>
         85,00,00,000
         <span class="fw-normal" style="font-size: 12px;">
@@ -12,11 +9,12 @@
       </ng-template>
       <ng-template cTemplateId="widgetActionTemplate">
         <c-dropdown alignment="end" variant="btn-group">
-          <button [caret]="false" cButton cDropdownToggle class="p-0 text-white" color="transparent" aria-label="Open dropdown">
+          <button [caret]="false" cButton cDropdownToggle class="p-0 text-white" color="transparent"
+            aria-label="Open dropdown">
             <svg cIcon name="cilOptions"></svg>
           </button>
           <ul cDropdownMenu>
-            <li><a [routerLink]="[]" cDropdownItem>Action</a></li>
+            <li><a (click)="toggleLiveDemo()" cDropdownItem>Table View</a></li>
             <li><a [routerLink]="[]" cDropdownItem>Another action</a></li>
             <li><a [routerLink]="[]" cDropdownItem>Something else here</a></li>
             <li>
@@ -34,10 +32,7 @@
     </c-widget-stat-a>
   </c-col>
   <c-col sm="6" xl="4">
-    <c-widget-stat-a
-      [title]="'Grand Total'"
-      color="info"
-    >
+    <c-widget-stat-a [title]="'Grand Total'" color="info">
       <ng-template cTemplateId="widgetValueTemplate" ngPreserveWhitespaces>
         <span> 73,26,24,093
         </span>
@@ -47,7 +42,8 @@
       </ng-template>
       <ng-template cTemplateId="widgetActionTemplate">
         <c-dropdown alignment="end" variant="btn-group">
-          <button [caret]="false" cButton cDropdownToggle class="p-0 text-white" color="transparent" aria-label="Open dropdown">
+          <button [caret]="false" cButton cDropdownToggle class="p-0 text-white" color="transparent"
+            aria-label="Open dropdown">
             <svg cIcon name="cilOptions"></svg>
           </button>
           <ul cDropdownMenu>
@@ -64,19 +60,17 @@
     </c-widget-stat-a>
   </c-col>
   <c-col sm="6" xl="4">
-    <c-widget-stat-a
-      [title]="'Difference'"
-      color="warning"
-    >
+    <c-widget-stat-a [title]="'Difference'" color="warning">
       <ng-template cTemplateId="widgetValueTemplate" ngPreserveWhitespaces>
-        <span> 97,81,326        </span>
+        <span> 97,81,326 </span>
         <span class="fw-normal" style="font-size: 12px;">
           (84.7% <svg cIcon name="cilArrowTop" size="sm"></svg>)
         </span>
       </ng-template>
       <ng-template cTemplateId="widgetActionTemplate">
         <c-dropdown alignment="end" variant="btn-group">
-          <button [caret]="false" cButton cDropdownToggle class="p-0 text-white" color="transparent" aria-label="Open dropdown">
+          <button [caret]="false" cButton cDropdownToggle class="p-0 text-white" color="transparent"
+            aria-label="Open dropdown">
             <svg cIcon name="cilOptions"></svg>
           </button>
           <ul cDropdownMenu>
@@ -122,3 +116,125 @@
     </c-widget-stat-a>
   </c-col> -->
 </c-row>
+
+<c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)" size="lg">
+  <c-modal-header>
+    <h5 cModalTitle>Target BY FY</h5>
+    <button (click)="toggleLiveDemo()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+        <table cTable bordered >
+          <thead>
+            <tr>
+              <th scope="col">Month</th>
+              <th scope="col">2024</th>
+              <th scope="col">2023</th>
+              <th scope="col">Difference</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Jan</th>
+              <th>200</th>
+              <td>100</td>
+              <td><strong>100 (100%)</strong>
+                <c-progress class="mt-2" thin color="success" value="100" aria-label="User visits" />
+              </td>
+            </tr>
+            <tr cTableColor="primary">
+              <th scope="row">Feb</th>
+              <th>500</th>
+              <td>800</td>
+              <td><strong>-300 (-40%)</strong>
+                <c-progress class="mt-2" thin color="danger" value="40" aria-label="User visits" />
+              </td>
+            </tr>
+            <tr cTableColor="secondary">
+              <th scope="row">Mar</th>
+              <th>200</th>
+              <td>100</td>
+              <td><strong>100 (100%)</strong>
+                <c-progress class="mt-2" thin color="success" value="100" aria-label="User visits" />
+              </td>
+            </tr>
+            <tr cTableColor="success">
+              <th scope="row">Apr</th>
+              <th>500</th>
+              <td>800</td>
+              <td><strong>-300 (-40%)</strong>
+                <c-progress class="mt-2" thin color="danger" value="40" aria-label="User visits" />
+              </td>
+            </tr>
+            <tr cTableColor="danger">
+              <th scope="row">May</th>
+              <th>200</th>
+              <td>100</td>
+              <td><strong>100 (100%)</strong>
+                <c-progress class="mt-2" thin color="success" value="100" aria-label="User visits" />
+              </td>
+            </tr>
+            <tr cTableColor="warning">
+              <th scope="row">Jun</th>
+              <th>500</th>
+              <td>800</td>
+              <td><strong>-300 (-40%)</strong>
+                <c-progress class="mt-2" thin color="danger" value="40" aria-label="User visits" />
+              </td>
+            </tr>
+            <tr cTableColor="info">
+              <th scope="row">Jul</th>
+              <th>200</th>
+              <td>100</td>
+              <td><strong>100 (100%)</strong>
+                <c-progress class="mt-2" thin color="success" value="100" aria-label="User visits" />
+              </td>
+            </tr>
+            <tr cTableColor="light">
+              <th scope="row">Aug</th>
+              <th>500</th>
+              <td>800</td>
+              <td><strong>-300 (-40%)</strong>
+                <c-progress class="mt-2" thin color="danger" value="40" aria-label="User visits" />
+              </td>
+            </tr>
+            <tr cTableColor="dark">
+              <th scope="row">Sep</th>
+              <th>200</th>
+              <td>100</td>
+              <td><strong>100 (100%)</strong>
+                <c-progress class="mt-2" thin color="success" value="100" aria-label="User visits" />
+              </td>
+            </tr>
+            <tr cTableColor="dark">
+              <th scope="row">Oct</th>
+              <th>500</th>
+              <td>800</td>
+              <td><strong>-300 (-40%)</strong>
+                <c-progress class="mt-2" thin color="danger" value="40" aria-label="User visits" />
+              </td>
+            </tr>
+            <tr cTableColor="dark">
+              <th scope="row">Nov</th>
+              <th>200</th>
+              <td>100</td>
+              <td><strong>100 (100%)</strong>
+                <c-progress class="mt-2" thin color="success" value="100" aria-label="User visits" />
+              </td>
+            </tr>
+            <tr cTableColor="dark">
+              <th scope="row">Dec</th>
+              <th>500</th>
+              <td>800</td>
+              <td><strong>-300 (-40%)</strong>
+                <c-progress class="mt-2" thin color="danger" value="40" aria-label="User visits" />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+  </c-modal-body>
+  <c-modal-footer>
+    <button (click)="toggleLiveDemo()" cButton color="secondary">
+      Close
+    </button>
+  </c-modal-footer>
+</c-modal>
