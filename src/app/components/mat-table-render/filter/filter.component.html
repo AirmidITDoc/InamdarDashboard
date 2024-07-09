@@ -1,0 +1,12 @@
+<div class="filter_cover">
+	<div class="filter-header">
+		<h3 class="filter-title">Filter</h3>
+	</div>
+	<div class="filter-body">
+		<ng-content></ng-content>
+	</div>
+	<div class="filter-actions">
+		<button type="button" class="reset-btn"  mat-flat-button color="primary" (click)="applyForm(false)">Reset</button>
+		<button type="button" class="submit-btn" mat-flat-button color="primary" (click)="applyForm(true)">Submit</button>
+	</div>
+</div>

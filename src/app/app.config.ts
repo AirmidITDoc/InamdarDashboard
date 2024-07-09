@@ -1,34 +1,26 @@
 import { ApplicationConfig, importProvidersFrom } from '@angular/core';
-import { provideAnimations } from '@angular/platform-browser/animations';
 import {
-  provideRouter,
-  withEnabledBlockingInitialNavigation,
-  withHashLocation,
-  withInMemoryScrolling,
-  withRouterConfig,
-  withViewTransitions
-} from '@angular/router';
-
-import { DropdownModule, SidebarModule } from '@coreui/angular';
-import { IconSetService } from '@coreui/icons-angular';
-import { routes } from './app.routes';
+  BrowserAnimationsModule,
+  provideAnimations,
+} from '@angular/platform-browser/animations';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { provideRouter } from '@angular/router';
+import {
+  DEFAULT_TIMEOUT,
+  InterceptorInterceptor,
+} from './services/interceptor/interceptor.interceptor';
+import { ROUTES } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(routes,
-      withRouterConfig({
-        onSameUrlNavigation: 'reload'
-      }),
-      withInMemoryScrolling({
-        scrollPositionRestoration: 'top',
-        anchorScrolling: 'enabled'
-      }),
-      withEnabledBlockingInitialNavigation(),
-      withViewTransitions(),
-      withHashLocation()
-    ),
-    importProvidersFrom(SidebarModule, DropdownModule),
-    IconSetService,
-    provideAnimations()
-  ]
+    provideAnimations(),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: InterceptorInterceptor,
+      multi: true,
+    },
+    { provide: DEFAULT_TIMEOUT, useValue: 30000 },
+    provideRouter(ROUTES),
+    importProvidersFrom([BrowserAnimationsModule, HttpClientModule]),
+  ],
 };

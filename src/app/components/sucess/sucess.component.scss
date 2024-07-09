@@ -1,0 +1,30 @@
+@import "../../../scss/mix";
+@import "../../../scss/var";
+@import "../../../scss/grid";
+
+.success_wrap {
+    max-width: 293px;
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: 20px;
+    @include flex(center, center);
+    flex-direction: column;
+    text-align: center;
+    figure {
+        max-width: 100px;
+        margin: 0 auto 35px;
+        @include tab-breakpoint {
+            margin: 0 auto 20px;
+        }
+    }
+    .success_title {
+        margin-bottom: 45px;
+        line-height: 30px;
+        color: var(--secondaryText);
+        font-family: var(--fontSemiBold);
+        @include tab-breakpoint {
+            margin-bottom: 30px;
+            line-height: 25px;
+        }
+    }
+}

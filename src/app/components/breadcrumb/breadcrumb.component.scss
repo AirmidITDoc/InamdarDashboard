@@ -1,0 +1,40 @@
+@import "../../../scss/var";
+@import "../../../scss/mix";
+
+.breadcrumb {
+  @include falign(center);
+  font-size: 16px;
+  margin-bottom: 20px;
+  background-color: transparent;
+  padding: 0;
+  span {
+    cursor: pointer;
+    outline: none;
+    transition: 0.3s ease all;
+    font-size: 16px;
+    @include tab-breakpoint {
+      font-size: 14px;
+    }
+    &:hover {
+      color: var(--primaryLight);
+    }
+
+    &:nth-last-child(2) {
+      color: var(--primaryLight);
+      font-family: var(--fontBold);
+      font-size: 16px;
+      pointer-events: none;
+    }
+  }
+
+  .mat-icon {
+    width: 30px;
+    height: 16px;
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .mat-icon:last-child {
+    display: none;
+  }
+}

@@ -1,0 +1,102 @@
+@import "../scss/mix";
+@import "../scss/var";
+
+.popup-ui {
+  .popup-header {
+    padding: 20px;
+    background-color: var(--primaryLight);
+    border-radius: 8px 8px 0px 0px;
+    color: var(--white);
+    position: relative;
+    @include fpos(center, flex-start);
+
+    .close-icon {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 9;
+      cursor: pointer;
+      color: var(--white);
+    }
+
+    .close-left {
+      margin-right: 10px;
+    }
+
+    h4 {
+      margin: 0;
+      color: var(--white);
+      text-transform: capitalize;
+      font-weight: 500;
+    }
+  }
+
+  .popup-body {
+    text-align: center;
+    padding: 30px 30px 20px;
+    max-height: calc(100vh - 185px);
+    @include scroller;
+    background-color: var(--white);
+    &::-webkit-scrollbar-thumb {
+      background: var(--scroller) !important;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: var(--white) !important;
+    }
+    &.inherit {
+      text-align: inherit;
+    }
+    &.p30 {
+      padding: 30px;
+    }
+    &.pb20 {
+      padding: 30px 20px 10px;
+    }
+    &.p0 {
+      padding: 0;
+      overflow: hidden;
+    }
+    .popup-logo {
+      padding-bottom: 15px;
+      img {
+        filter: invert(29%) sepia(9%) saturate(851%) hue-rotate(179deg) brightness(90%) contrast(86%);
+      }
+    }
+    .note-sec {
+      padding-top: 15px;
+      p {
+        margin: 0;
+        font-size: 13px;
+        line-height: 20px;
+        font-family: var(--font);
+        strong {
+          font-family: var(--fontSemiBold);
+        }
+      }
+    }
+  }
+
+  .popup-footer {
+    background-color: var(--white);
+    padding: 10px 0 10px;
+    // &.border {
+    //   border-top: 1px solid var(--borderLight);
+    // }
+    .btn-cover {
+      @include fpos(center, center);
+      &.p0 {
+        padding-top: 0;
+        padding-bottom: 0;
+      }
+      .btn {
+        margin: 10px;
+        width: fit-content;
+        min-width: 100px;
+        height: auto;
+        padding: 10px 12px;
+      }
+    }
+  }
+}

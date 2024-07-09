@@ -1,0 +1,45 @@
+@import "../../../scss/var";
+@import "../../../scss/mix";
+
+.data_loader {
+  padding: 20px;
+  @include fpos(center, center);
+  // margin-bottom: 20px;
+  .loadersmall {
+    border: 2px solid var(--borderColor);
+    -webkit-animation: spin 1s linear infinite;
+    animation: spin 1s linear infinite;
+    border-top: 2px solid var(--primary);
+    @include radius(50%);
+    width: 30px;
+    height: 30px;
+  }
+}
+
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  100% {
+    -webkit-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  100% {
+    -webkit-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}

@@ -1,0 +1,7 @@
+@import "../../../scss/var";
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+.tabbing_chat {
+  display: inline-block;
+  overflow: auto;
+  width: 100%;
+}

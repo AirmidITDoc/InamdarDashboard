@@ -1,0 +1,461 @@
+<div class="row">
+  <div class="col-lg-12">
+    <!-- FIRST GRID -->
+    <mat-card class="cardWithShadow">
+      <mat-card-content class="p-24">
+        <mat-card-title>First MIS Dashboard</mat-card-title>
+        <div class="table-responsive m-t-16">
+          <table mat-table [dataSource]="dataSource1" class="w-100" matSortActive="createdDate" matSortDisableClear matSortDirection="asc">
+            <!-- Bill Month / Bill Year Column -->
+            <ng-container matColumnDef="BillMonth">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                class="f-w-600 mat-subtitle-1 f-s-14"
+              >
+              Bill Period
+              </th>
+              <td mat-cell *matCellDef="let element" class="mat-body-1">
+                {{ element.BillMonth }} / {{ element.BillYear }}
+              </td>
+            </ng-container>
+
+            <!-- IPD_B_TotalBillAmountSum Column -->
+            <ng-container matColumnDef="IPD_B_TotalBillAmountSum">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                class="f-w-600 mat-subtitle-1 f-s-14"
+              >
+                IPD Bill Total Amount
+              </th>
+              <td mat-cell *matCellDef="let element" class="mat-body-1">
+                {{ element.IPD_B_TotalBillAmountSum }}
+              </td>
+            </ng-container>
+
+            <!-- OPD_B_TotalBillAmountSum Column -->
+            <ng-container matColumnDef="OPD_B_TotalBillAmountSum">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                class="f-w-600 mat-subtitle-1 f-s-14"
+              >
+                IPD Bill Total Amount
+              </th>
+              <td mat-cell *matCellDef="let element" class="mat-body-1">
+                {{ element.OPD_B_TotalBillAmountSum }}
+              </td>
+            </ng-container>
+
+            <!-- PharmaOT Column -->
+            <ng-container matColumnDef="PharmaOT">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                class="f-w-600 mat-subtitle-1 f-s-14"
+              >
+              Pharma OT
+              </th>
+              <td mat-cell *matCellDef="let element" class="mat-body-1">
+                {{ element.PharmaOT }}
+              </td>
+            </ng-container>
+
+            <!-- TotalAmount Column -->
+            <ng-container matColumnDef="TotalAmount">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                class="f-w-600 mat-subtitle-1 f-s-14"
+              >
+              Total Amount
+              </th>
+              <td mat-cell *matCellDef="let element" class="mat-body-1">
+                {{ element.TotalAmount }}
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns1"></tr>
+          </table>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <!-- SECOND GRID -->
+    <mat-card class="cardWithShadow">
+      <mat-card-content class="p-24">
+        <mat-card-title>Second MIS Dashboard</mat-card-title>
+        <div class="table-responsive m-t-16">
+          <table mat-table [dataSource]="dataSource2" class="w-100" matSortActive="createdDate" matSortDisableClear matSortDirection="asc">
+            <!-- Bill Month / Bill Year Column -->
+            <ng-container matColumnDef="BillMonth">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                class="f-w-600 mat-subtitle-1 f-s-14"
+              >
+              Period
+              </th>
+              <td mat-cell *matCellDef="let element" class="mat-body-1">
+                {{ element.BillMonth }} / {{ element.BillYear }}
+              </td>
+            </ng-container>
+
+
+            <!-- HospitalPatientCount Column -->
+            <ng-container matColumnDef="HospitalPatientCount">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                class="f-w-600 mat-subtitle-1 f-s-14"
+              >
+              Hospital Patient Count
+              </th>
+              <td mat-cell *matCellDef="let element" class="mat-body-1">
+                {{ element.HospitalPatientCount }}
+              </td>
+            </ng-container>
+
+            <!-- HospitalPatientPer Column -->
+            <ng-container matColumnDef="HospitalPatientPer">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                class="f-w-600 mat-subtitle-1 f-s-14"
+              >
+              Hospital Patient Per
+              </th>
+              <td mat-cell *matCellDef="let element" class="mat-body-1">
+                {{ element.HospitalPatientPer }}
+              </td>
+            </ng-container>
+
+            <!-- PrivatePatientCount Column -->
+            <ng-container matColumnDef="PrivatePatientCount">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                class="f-w-600 mat-subtitle-1 f-s-14"
+              >
+              Private Patient Count
+              </th>
+              <td mat-cell *matCellDef="let element" class="mat-body-1">
+                {{ element.PrivatePatientCount }}
+              </td>
+            </ng-container>
+
+            <!-- PrivatePatientPer Column -->
+            <ng-container matColumnDef="PrivatePatientPer">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                class="f-w-600 mat-subtitle-1 f-s-14"
+              >
+              Private Patient Per
+              </th>
+              <td mat-cell *matCellDef="let element" class="mat-body-1">
+                {{ element.PrivatePatientPer }}
+              </td>
+            </ng-container>
+
+            <!-- ReferalPatientCount Column -->
+            <ng-container matColumnDef="ReferalPatientCount">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                class="f-w-600 mat-subtitle-1 f-s-14"
+              >
+              Referal Patient Count
+              </th>
+              <td mat-cell *matCellDef="let element" class="mat-body-1">
+                {{ element.ReferalPatientCount }}
+              </td>
+            </ng-container>
+
+            <!-- ReferalPatientPer Column -->
+            <ng-container matColumnDef="ReferalPatientPer">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                class="f-w-600 mat-subtitle-1 f-s-14"
+              >
+              Referal Patient Per
+              </th>
+              <td mat-cell *matCellDef="let element" class="mat-body-1">
+                {{ element.ReferalPatientPer }}
+              </td>
+            </ng-container>
+
+            <!-- TotalPatientsCount Column -->
+            <ng-container matColumnDef="TotalPatientsCount">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                class="f-w-600 mat-subtitle-1 f-s-14"
+              >
+              Total Patients Count
+              </th>
+              <td mat-cell *matCellDef="let element" class="mat-body-1">
+                {{ element.TotalPatientsCount }}
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns2"></tr>
+          </table>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <!-- THIRD GRID -->
+    <mat-card class="cardWithShadow">
+      <mat-card-content class="p-24">
+        <mat-card-title>Third MIS Dashboard</mat-card-title>
+        <div class="table-responsive m-t-16">
+          <table mat-table [dataSource]="dataSource3" class="w-100" matSortActive="createdDate" matSortDisableClear matSortDirection="asc">
+            <!-- DoctorName Column -->
+            <ng-container matColumnDef="DoctorName">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                class="f-w-600 mat-subtitle-1 f-s-14"
+              >
+              Doctor Name
+              </th>
+              <td mat-cell *matCellDef="let element" class="mat-body-1">
+                {{ element.DoctorName }}
+              </td>
+            </ng-container>
+
+            <!-- Jan_Patients Column -->
+            <ng-container matColumnDef="Jan_Patients">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                class="f-w-600 mat-subtitle-1 f-s-14"
+              >
+              Jan Patients
+              </th>
+              <td mat-cell *matCellDef="let element" class="mat-body-1">
+                {{ element.Jan_Patients | emptyValue}}
+              </td>
+            </ng-container>
+
+            <!-- Jan_Percentage Column -->
+            <ng-container matColumnDef="Jan_Percentage">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                class="f-w-600 mat-subtitle-1 f-s-14"
+              >
+              Jan Percentage
+              </th>
+              <td mat-cell *matCellDef="let element" class="mat-body-1">
+                {{ element.Jan_Percentage | emptyValue}}
+              </td>
+            </ng-container>
+
+            <!-- Feb_Patients Column -->
+            <ng-container matColumnDef="Feb_Patients">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                class="f-w-600 mat-subtitle-1 f-s-14"
+              >
+              Feb Patients
+              </th>
+              <td mat-cell *matCellDef="let element" class="mat-body-1">
+                {{ element.Feb_Patients | emptyValue}}
+              </td>
+            </ng-container>
+
+            <!-- Feb_Percentage Column -->
+            <ng-container matColumnDef="Feb_Percentage">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                class="f-w-600 mat-subtitle-1 f-s-14"
+              >
+              Feb Percentage
+              </th>
+              <td mat-cell *matCellDef="let element" class="mat-body-1">
+                {{ element.Feb_Percentage | emptyValue}}
+              </td>
+            </ng-container>
+
+            <!-- Mar_Patients Column -->
+            <ng-container matColumnDef="Mar_Patients">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                class="f-w-600 mat-subtitle-1 f-s-14"
+              >
+              Mar Patients
+              </th>
+              <td mat-cell *matCellDef="let element" class="mat-body-1">
+                {{ element.Mar_Patients | emptyValue}}
+              </td>
+            </ng-container>
+
+            <!-- Mar_Percentage Column -->
+            <ng-container matColumnDef="Mar_Percentage">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                class="f-w-600 mat-subtitle-1 f-s-14"
+              >
+              Mar Percentage
+              </th>
+              <td mat-cell *matCellDef="let element" class="mat-body-1">
+                {{ element.Mar_Percentage | emptyValue}}
+              </td>
+            </ng-container>
+
+            <!-- Apr_Patients Column -->
+            <ng-container matColumnDef="Apr_Patients">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                class="f-w-600 mat-subtitle-1 f-s-14"
+              >
+              Apr Patients
+              </th>
+              <td mat-cell *matCellDef="let element" class="mat-body-1">
+                {{ element.Apr_Patients | emptyValue}}
+              </td>
+            </ng-container>
+
+            <!-- Apr_Percentage Column -->
+            <ng-container matColumnDef="Apr_Percentage">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                class="f-w-600 mat-subtitle-1 f-s-14"
+              >
+              Apr Percentage
+              </th>
+              <td mat-cell *matCellDef="let element" class="mat-body-1">
+                {{ element.Apr_Percentage | emptyValue}}
+              </td>
+            </ng-container>
+
+            <!-- May_Patients Column -->
+            <ng-container matColumnDef="May_Patients">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                class="f-w-600 mat-subtitle-1 f-s-14"
+              >
+              May Patients
+              </th>
+              <td mat-cell *matCellDef="let element" class="mat-body-1">
+                {{ element.May_Patients | emptyValue}}
+              </td>
+            </ng-container>
+
+            <!-- May_Percentage Column -->
+            <ng-container matColumnDef="May_Percentage">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                class="f-w-600 mat-subtitle-1 f-s-14"
+              >
+              May Percentage
+              </th>
+              <td mat-cell *matCellDef="let element" class="mat-body-1">
+                {{ element.May_Percentage | emptyValue}}
+              </td>
+            </ng-container>
+
+            <!-- Jun_Patients Column -->
+            <ng-container matColumnDef="Jun_Patients">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                class="f-w-600 mat-subtitle-1 f-s-14"
+              >
+              Jun Patients
+              </th>
+              <td mat-cell *matCellDef="let element" class="mat-body-1">
+                {{ element.Jun_Patients | emptyValue}}
+              </td>
+            </ng-container>
+
+            <!-- Jun_Percentage Column -->
+            <ng-container matColumnDef="Jun_Percentage">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                class="f-w-600 mat-subtitle-1 f-s-14"
+              >
+              Jun Percentage
+              </th>
+              <td mat-cell *matCellDef="let element" class="mat-body-1">
+                {{ element.Jun_Percentage  | emptyValue}}
+              </td>
+            </ng-container>
+
+            <!-- Jul_Patients Column -->
+            <ng-container matColumnDef="Jul_Patients">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                class="f-w-600 mat-subtitle-1 f-s-14"
+              >
+              Jul Patients
+              </th>
+              <td mat-cell *matCellDef="let element" class="mat-body-1">
+                {{ element.Jul_Patients | emptyValue}}
+              </td>
+            </ng-container>
+
+            <!-- Jul_Percentage Column -->
+            <ng-container matColumnDef="Jul_Percentage">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                class="f-w-600 mat-subtitle-1 f-s-14"
+              >
+              Jul Percentage
+              </th>
+              <td mat-cell *matCellDef="let element" class="mat-body-1">
+                {{ element.Jul_Percentage | emptyValue}}
+              </td>
+            </ng-container>
+
+            <!-- TotalCount Column -->
+            <ng-container matColumnDef="TotalCount">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                class="f-w-600 mat-subtitle-1 f-s-14"
+              >
+              Total Count
+              </th>
+              <td mat-cell *matCellDef="let element" class="mat-body-1">
+                {{ element.TotalCount }}
+              </td>
+            </ng-container>
+
+            <!-- TotalPercentage Column -->
+            <ng-container matColumnDef="TotalPercentage">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                class="f-w-600 mat-subtitle-1 f-s-14"
+              >
+              Total Percentage
+              </th>
+              <td mat-cell *matCellDef="let element" class="mat-body-1">
+                {{ element.TotalPercentage }}
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns3"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns3"></tr>
+          </table>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

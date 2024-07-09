@@ -1,0 +1,79 @@
+@import "../../../scss/mixins";
+
+.upload_img_wrapper {
+  position: relative;
+  border: 1px dashed var(--primaryGreen);
+  @include radius(8px);
+  padding: 5px;
+
+  .upload-box {
+    position: relative;
+    width: 78px;
+    height: 78px;
+    @include radius(4px);
+    background-color: var(--profilePicBg);
+    @include flex(center, center);
+  }
+}
+.edit-icon {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  button {
+    background-color: var(--white);
+    width: 50px;
+    min-width: 50px;
+    height: 50px;
+    padding: 0;
+    @include radius(50%);
+    @include flex(center, center);
+    transition: all 0.3s ease-in;
+    span {
+      width: 50px;
+      min-width: 50px;
+      height: 50px;
+    }
+    img {
+      width: 27px;
+      filter: invert(29%) sepia(9%) saturate(851%) hue-rotate(179deg) brightness(90%) contrast(86%);
+    }
+    &:hover {
+      background-color: var(--primaryLight);
+      img {
+        filter: invert(99%) sepia(99%) saturate(22%) hue-rotate(311deg) brightness(104%) contrast(100%);
+      }
+    }
+  }
+}
+.upload-img-cover {
+  .upload_menu {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    @include flex(center, center);
+    position: absolute;
+    border: 1px dashed var(--primaryGreen);
+    background-color: var(--white);
+    right: -16px;
+    bottom: 3px;
+
+    img {
+      max-width: 16px;
+    }
+
+    &:hover {
+      background-color: var(--bgColor);
+    }
+  }
+
+  input[type="file"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+  }
+}

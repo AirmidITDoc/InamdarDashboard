@@ -1,0 +1,194 @@
+<ng-container *ngIf="!isVideoAllowed">
+  <ng-container *ngIf="!componentImageStyle">
+    <ng-container *ngIf="showButtonHandler; else iconHandler">
+      <div class="default-preview">
+        <img [src]="'assets/images/camera.svg'" aria-label="Preview Image" />
+      </div>
+      <button type="button" class="upload-file" (click)="myInputFile.click()">
+        <input
+          #myInputFile
+          type="file"
+          onclick="this.value = null"
+          style="display: none"
+          accept="image/*"
+          (change)="fileChangeEvent($event)"
+          [multiple]="isMultiSelection"
+        />
+        <mat-icon class="upload-ic">photo_camera</mat-icon>
+      </button>
+    </ng-container>
+
+    <ng-template #iconHandler>
+      <!-- <figure class="user_img">
+        <img
+          class="user-profile"
+          [src]="
+            selectedImageFile?.base64Url
+              ? selectedImageFile?.base64Url
+              : selectedImageFile
+          "
+          alt="user-img"
+        />
+      </figure> -->
+      <div class="edit-icon">
+        <button
+          class="btn btn-outline"
+          mat-stroked-button
+          type="button"
+          matTooltip="Edit Image"
+          (click)="myInputFile.click()"
+        >
+          <input
+            #myInputFile
+            type="file"
+            onclick="this.value = null"
+            style="display: none"
+            accept="image/*"
+            (change)="fileChangeEvent($event)"
+          />
+          <img src="assets/images/svg/edit-icon.svg" aria-label="Edit Image" />
+        </button>
+      </div>
+    </ng-template>
+  </ng-container>
+
+  <ng-container *ngIf="componentImageStyle == 'healthy'">
+    <button
+      mat-stroked-button
+      class="btn btn-primary btn-sm w-auto btn-width"
+      type="file"
+      accept="image/png,.jpg,.jpeg"
+      color="primary"
+      [disabled]="disabled"
+      (click)="itemImage.click()"
+      color="primary"
+    >
+      <input
+        #itemImage
+        type="file"
+        (change)="fileChangeEvent($event)"
+        style="display: none"
+        accept="image/*"
+      />
+      Upload Thumbnail
+    </button>
+  </ng-container>
+
+  <ng-container *ngIf="componentImageStyle == 'profile'">
+    <button
+      mat-stroked-button
+      class="btn btn-primary btn-sm w-auto btn-width"
+      type="file"
+      accept="image/png,.jpg,.jpeg"
+      color="primary"
+      [disabled]="disabled"
+      (click)="itemImage.click()"
+      color="primary"
+    >
+      <input
+        #itemImage
+        type="file"
+        (change)="fileChangeEvent($event)"
+        style="display: none"
+        accept="image/*"
+      />
+      Change Photo
+    </button>
+  </ng-container>
+
+  <ng-container *ngIf="componentImageStyle == 'gif'">
+    <input
+      #menuItemImage
+      type="file"
+      style="display: none"
+      accept="image/gif"
+      (change)="fileChangeEvent($event)"
+    />
+    <img
+      src="assets/images/icons/upload.svg"
+      (click)="menuItemImage.click()"
+      aria-label="Icon"
+      *ngIf="!imageValue"
+    />
+    <img
+      src="assets/images/close-icon.svg"
+      (click)="onCancel()"
+      aria-label="Icon"
+      *ngIf="imageValue"
+    />
+  </ng-container>
+
+  <ng-container *ngIf="componentImageStyle == 'categoryImage'">
+    <a class="anchor">
+      <img
+        src="assets/images/icons/upload.svg"
+        (click)="menuImage.click()"
+        aria-label="Icon"
+      />
+      <input
+        #menuImage
+        type="file"
+        style="display: none"
+        accept="image/*"
+        (change)="fileChangeEvent($event)"
+      />
+    </a>
+  </ng-container>
+</ng-container>
+
+<!-- <div  class="video_btn" *ngIf="isVideoAllowed">
+  <span class="btn_primary">
+    Add Video
+    <input #videoInput type="file" accept="video/mp4,.gif,.mpeg" onclick="this.value = null"
+      (change)="onMoreFileUpload($event)">
+      <mat-icon class="upload-ic" >photo_camera</mat-icon>
+
+  </span>
+</div> -->
+
+<!-- <ng-container *ngIf="isVideoAllowed">
+  <button
+    mat-stroked-button
+    class="btn btn-primary btn-sm w-auto btn-width"
+    type="file"
+    color="primary"
+  >
+    <input
+      #videoInput
+      type="file"
+      accept="video/mp4,.mpeg"
+      (change)="onMoreFileUpload($event)"
+      style="display: none"
+    />
+    Upload Video -->
+<!-- <img src="assets/images/icons/upload.svg" (click)="videoInput.click()" aria-label="Icon" *ngIf="!videoValue" />
+    <img src="assets/images/close-icon.svg" (click)="onCancel()" aria-label="Icon" *ngIf="videoValue" /> -->
+<!-- </button>
+</ng-container> -->
+
+<ng-container *ngIf="isVideoAllowed">
+  <a class="anchor">
+    <input
+      #videoInput
+      type="file"
+      accept="video/mp4,.mpeg"
+      (change)="onMoreFileUpload($event)"
+      style="display: none"
+    />
+    <button
+      mat-stroked-button
+      class="btn btn-primary btn-sm w-auto btn-width"
+      src="assets/images/icons/upload.svg"
+      (click)="videoInput.click()"
+      *ngIf="!videoValue"
+    >
+      Upload Video
+    </button>
+    <img
+      src="assets/images/close-icon.svg"
+      (click)="onCancel()"
+      alt="Icon"
+      *ngIf="videoValue"
+    />
+  </a>
+</ng-container>

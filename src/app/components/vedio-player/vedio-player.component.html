@@ -1,0 +1,37 @@
+<div class="confirmation-modal popup-ui">
+  <div class="popup-header">
+    <h4>{{ data?.name | titlecase }}</h4>
+    <span
+      class="material-icons close-icon"
+      matTooltip="Close"
+      (click)="onNoClick()"
+      >close</span
+    >
+  </div>
+  <div class="video_wrapper">
+    <video #videoPlayer width="640" height="360" controls preload="metadata">
+      <source [src]="data.url" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+
+    <div [class]="vedioClass">
+      <div class="thumbnail_icon">
+        <figure>
+          <img [src]="data.thumbnail" aria-label="Video Thumbnail" />
+        </figure>
+      </div>
+      <div class="play_btn_wrap">
+        <button
+          type="button"
+          matTooltip="Play"
+          (click)="playVideo()"
+          class="video_play_btn"
+        >
+          <mat-icon class="play_btn material-symbols-outlined"
+            >play_circle</mat-icon
+          >
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

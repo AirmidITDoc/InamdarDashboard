@@ -1,0 +1,370 @@
+<div class="page-table" [ngClass]="cls">
+  <div class="detail-filter">
+    <div class="search-filter-wrap">
+      <div class="listing-filter" *ngIf="removeId != 1">
+        <div class="left-side-filters" *ngIf="hideSearch">
+          <app-search-render
+            [placeholder]="placeholder"
+            (renderSearch)="searchTable($event)"
+            class="search-render-wrap"
+          >
+          </app-search-render>
+        </div>
+        <!-- status -->
+        <mat-form-field *ngIf="hideStatus">
+          <mat-label>Select Status</mat-label>
+          <mat-select
+            (selectionChange)="onStatusChange($event)"
+            [(value)]="selectedStatus"
+          >
+            <mat-option *ngFor="let status of statusOptions" [value]="status">{{
+              status
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <!-- sttaus -->
+        <!-- appointments -->
+        <mat-form-field *ngIf="hideAppointment">
+          <mat-label>Appointment Type</mat-label>
+          <mat-select
+            (selectionChange)="onTypeChange($event)"
+            [(value)]="selectedAppointment"
+          >
+            <mat-option
+              *ngFor="let appointment of appointmentOption"
+              [value]="appointment"
+              >{{ appointment }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+        <!-- appointments -->
+        <div class="right-side-filters">
+          <ng-container>
+            <button
+              *ngIf="hideFilter"
+              class="filter-button btn-indicator-cover filterBtn"
+              title="Filter"
+              matBadgeColor="accent"
+              (click)="tableFilter(!isOpen)"
+            >
+              <div class="filter-button-bg"></div>
+              <mat-icon>filter_list</mat-icon>
+            </button>
+            <app-filter
+              [@openClose]="isOpen ? 'open' : 'closed'"
+              (apply)="applyFilter($event)"
+              class="filter-area-section"
+            >
+              <ng-content select="[role=filter]"></ng-content>
+            </app-filter>
+          </ng-container>
+
+          <button
+            class="btn btn-primary"
+            mat-stroked-button
+            title="Add"
+            *ngIf="noAddButton"
+            (click)="addListing(0)"
+          >
+            <div class="filter-button-bg">+ Add</div>
+          </button>
+
+          <ng-container>
+            <button
+              class="filter-button"
+              [class]="addCustomClass"
+              [matMenuTriggerFor]="menu"
+              title="Export"
+            >
+              <div class="filter-button-bg"></div>
+              <mat-icon>archive</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="exportList()">as CSV</button>
+            </mat-menu>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="export_btn_wrap" *ngIf="Export">
+    <!-- <button mat-raised-button class="btn btn-primary btn-sm w-auto" type="button">
+      Export
+    </button> -->
+    <div class="form-in select-block md m-0">
+      <mat-form-field appearance="outline">
+        <mat-select
+          placeholder="Export"
+          (selectionChange)="onSelectionChange($event)"
+        >
+          <mat-option value="10"> 10 </mat-option>
+          <mat-option value="25"> 25 </mat-option>
+          <mat-option value="50"> 50 </mat-option>
+          <mat-option value="100"> 100 </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="table-container cst-scroll">
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      matSort
+      matSortStart="desc"
+      class="mat-elevation-z1"
+      matSortDisableClear
+      (matSortChange)="sortingData($event)"
+    >
+      <!-- Position Column -->
+      <ng-container *ngFor="let row of heading" [matColumnDef]="row.heading">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          [disabled]="!row.sort"
+          class="table-header"
+          [ngClass]="{
+            noshort: !row.sort,
+            'table-action': row.type == 'action',
+            'table-center': row.align == 'center',
+            'table-content': row.content == true,
+            'table-faq': row.faqContent == true
+          }"
+        >
+          {{ row.heading }}
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let element; let i = index"
+          [ngClass]="{
+            'table-action': row.type == 'action',
+            'table-center': row.align == 'center',
+            'table-content': row.content == true,
+            'table-faq': row.faqContent == true
+          }"
+        >
+          <ng-container [ngSwitch]="row.type">
+            <ng-container *ngSwitchCase="'img'">
+              <div class="table-image">
+                <app-lazy-image [img]="element[row.key]"> </app-lazy-image>
+              </div>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="'link'">
+              <ng-container *ngIf="row.faqContent == true; else notForFaq">
+                <a
+                  class="table-link"
+                  matTooltip="{{ element[row.key] ? element[row.key] : '' }}"
+                  (click)="detailInPopup.emit(element)"
+                >
+                  {{ element[row.key] | emptyValue }}
+                </a>
+              </ng-container>
+
+              <ng-template #notForFaq>
+                <a
+                  class="table-link"
+                  matTooltip="{{ element[row.key] ? element[row.key] : '' }}"
+                  (click)="
+                    onNaviagateDetailsPage(
+                      element,
+                      row.link,
+                      element?.userId ? element?.userId : element?._id
+                    )
+                  "
+                >
+                  <!-- routerLink="{{ row.link }}/{{
+                element?.userId ? element?.userId : element?._id
+              }}" -->
+                  {{
+                    (element[row.key]?.length < 25
+                      ? element[row.key]
+                      : element[row.key].slice(0, 25) + "..."
+                    ) | emptyValue
+                  }}
+                </a>
+              </ng-template>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="'formatAmount'">
+              <span>{{ element[row.key] | number }} </span>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="'mobileNumber'">
+              <span
+                >{{ element[row.key] ? "" : "N/A" }} {{ element[row.key] }}
+              </span>
+            </ng-container>
+            <ng-container *ngSwitchCase="'formatDateTime'">
+              <span>{{ element[row.key] | date : dateType.MEDIUM_DATE }}</span>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="'formatDateWithTime'">
+              <span>{{
+                element[row.key] | date : dateType.DATE_TIME_WITH_COMMA_SEP
+              }}</span>
+            </ng-container>
+            <!-- -->
+
+            <ng-container *ngSwitchCase="'sharedWith'">
+              <span class="shared-info">
+                <p class="name">{{ element[row.key]?.name }}</p>
+                <p class="email">
+                  {{ element[row.key]?.email }}
+                </p>
+              </span>
+            </ng-container>
+            <ng-container *ngSwitchCase="'name'">
+              <span>{{
+                element[row.key]?.length < 25
+                  ? element[row.key]
+                  : element[row.key].slice(0, 25) + "..."
+              }}</span>
+            </ng-container>
+            <ng-container *ngSwitchCase="'formatStatus'">
+              <span [ngClass]="{ red: element[row.key] == 'INACTIVE' }">
+                {{ element[row.key] | formatStatus : listType }}
+              </span>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="'action'">
+              <div class="action-icon-cover">
+                <ng-container *ngFor="let sta of row.action">
+                  <ruby
+                    (click)="changeStatus(sta, element, i, listType)"
+                    *ngIf="element[row.key] != 'DELETED'"
+                  >
+                    <i
+                      class="material-icons icon-check icon-edit"
+                      matTooltip="Edit"
+                      *ngIf="sta == 1"
+                    >
+                      edit_note
+                    </i>
+                    <div
+                      class="material-icons"
+                      [ngClass]="{
+                        'icon-unblock': element?.status === API_EVENT.block,
+                        'icon-block': element?.status === API_EVENT.active
+                      }"
+                      [matTooltip]="
+                        element?.status == 'ACTIVE' ? 'Active' : 'Blocked'
+                      "
+                      *ngIf="sta == 2"
+                    >
+                      <i
+                        class="material-icons icon-primary active-icon"
+                        *ngIf="element?.status === API_EVENT.active"
+                      >
+                        done
+                      </i>
+                      <i
+                        class="material-icons icon-primary"
+                        *ngIf="element?.status === API_EVENT.block"
+                      >
+                        block
+                      </i>
+                    </div>
+
+                    <i
+                      class="material-icons icon-delete icon-primary"
+                      *ngIf="sta == 3"
+                      matTooltip="Delete"
+                    >
+                      delete_outlined
+                    </i>
+                    <i
+                      class="material-icons icon-primary"
+                      *ngIf="sta == 4"
+                      matTooltip="Send"
+                    >
+                      open_in_new
+                    </i>
+                  </ruby>
+                </ng-container>
+              </div>
+            </ng-container>
+
+            <ng-container *ngSwitchDefault>
+              <ng-container *ngIf="row.type == 'date'; else time">
+                {{
+                  element[row.key]
+                    ? (element[row.key] | date : dateType.MEDIUM_DATE)
+                    : "-"
+                }}
+              </ng-container>
+              <ng-template #time>
+                <ng-container *ngIf="row.type == 'time'; else dateTime">
+                  {{
+                    element[row.key]
+                      ? (element[row.key] | date : dateType.SHORT_TIME)
+                      : "-"
+                  }}
+                </ng-container>
+                <ng-template #dateTime>
+                  <ng-container *ngIf="row.type == 'dateTime'; else normalKeys">
+                    {{
+                      element[row.key]
+                        ? (element[row.key] | date : dateType.DATE_WITH_TIME)
+                        : "-"
+                    }}
+                  </ng-container>
+                  <ng-template #normalKeys>
+                    {{
+                      element[row.key]
+                        ? element[row.key]
+                        : element[row.key] === 0
+                        ? 0
+                        : "-"
+                    }}
+                  </ng-template>
+                </ng-template>
+              </ng-template>
+            </ng-container>
+          </ng-container>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="matHeaderRow"></tr>
+      <tr mat-row *matRowDef="let row; columns: matHeaderRow"></tr>
+    </table>
+
+    <div class="loading-cover" *ngIf="showLoader">
+      <app-data-loader></app-data-loader>
+    </div>
+    <div class="no-data-cover" *ngIf="notData && !showLoader">
+      <app-result-not-found [msg]="notFound"></app-result-not-found>
+    </div>
+  </div>
+  <div class="pagination-sec">
+    <mat-paginator
+      #paginator
+      class="table-pagination"
+      *ngIf="length"
+      [length]="length"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="[5, 10, 25, 100]"
+      (page)="onPageHandler($event)"
+      showFirstLastButtons
+    ></mat-paginator>
+  </div>
+  <!-- <ng-container>
+    <button
+      *ngIf="hideFilter"
+      class="filter-button btn-indicator-cover filterBtn"
+      title="Filter"
+      matBadgeColor="accent"
+      (click)="tableFilter(!isOpen)"
+    >
+      <div class="filter-button-bg"></div>
+      <mat-icon>filter_list</mat-icon>
+    </button>
+    <app-filter
+      [@openClose]="isOpen ? 'open' : 'closed'"
+      (apply)="applyFilter($event)"
+      class="filter-area-section"
+    >
+      <ng-content select="[role=filter]"></ng-content>
+    </app-filter>
+  </ng-container> -->
+</div>

@@ -1,0 +1,15 @@
+<mat-form-field appearance="outline" class="search_filter">
+  <input
+    type="search"
+    matInput
+    placeholder="{{ placeholder ? placeholder : 'Search' }}"
+    [prevent-keys]="[219, 221]"
+    maxlength="50"
+    [formControl]="searchForm"
+    autocomplete="off"
+  />
+
+  <span matSuffix (click)="clearValue()">
+    <mat-icon>{{ searchForm.value ? "close" : "search" }}</mat-icon>
+  </span>
+</mat-form-field>

@@ -1,0 +1,39 @@
+<app-data-loader *ngIf="isApiCallInProgress"></app-data-loader>
+<div class="confirmation-modal popup-ui">
+  <div class="popup-header">
+    <h4>{{ data?.name | titlecase }}</h4>
+    <span class="material-icons close-icon" matTooltip="Close" (click)="close()"
+      >close</span
+    >
+  </div>
+  <div class="popup-body p0">
+    <figure>
+      <pdf-viewer
+        [src]="url"
+        [zoom]="currentZoom"
+        [render-text]="true"
+        [original-size]="false"
+        [zoom]="currentZoom"
+        [external-link-target]="'blank'"
+        [show-all]="true"
+        [stick-to-page]="false"
+        class="pdf-viewer"
+        (page-rendered)="pageRendered($event)"
+        [style]="'width:' + width + 'px;' + ' height:' + height + 'px;'"
+      ></pdf-viewer>
+    </figure>
+  </div>
+  <div class="zoom-action">
+    <div class="zoom-inner">
+      <div class="action-wrap">
+        <button type="button" matTooltip="Zoom Out" (click)="decreseZoom()">
+          <img src="assets/images/icon-zoom-out.svg" alt="Zoom Out Icon" />
+        </button>
+        <div class="separator"></div>
+        <button type="button" matTooltip="Zoom In" (click)="increaseZoom()">
+          <img src="assets/images/icon-zoom-in.svg" alt="Zoom In Icon" />
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

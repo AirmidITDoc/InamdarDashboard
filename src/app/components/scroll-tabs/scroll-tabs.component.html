@@ -1,0 +1,33 @@
+<ng-container *ngIf="componentName == 'cms'; else scrollTabs">
+  <div class="tab-section tabbing_chat charitables">
+    <nav mat-tab-nav-bar>
+      <a
+        mat-tab-link
+        *ngFor="let link of navlinks"
+        [routerLink]="link.path"
+        routerLinkActive
+        #rla="routerLinkActive"
+        [active]="rla.isActive"
+        (click)="myTabSelectedTabChange(link)"
+        [routerLinkActiveOptions]="{ exact: false }"
+      >
+        {{ link.label }}
+      </a>
+    </nav>
+  </div>
+</ng-container>
+<ng-template #scrollTabs>
+  <div class="tab-section">
+    <mat-tab-group
+      (wheel)="scrollTabs($event)"
+      #tabGroup
+      (selectedTabChange)="myTabSelectedTabChange($event)"
+    >
+      <mat-tab
+        [label]="tab.label"
+        [bind]="tab.value"
+        *ngFor="let tab of tabs"
+      ></mat-tab>
+    </mat-tab-group>
+  </div>
+</ng-template>

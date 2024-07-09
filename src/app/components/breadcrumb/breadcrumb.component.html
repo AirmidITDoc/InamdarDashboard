@@ -1,0 +1,15 @@
+<ng-container *ngIf="data?.length">
+
+  <div class="breadcrumb">
+
+    <span [routerLink]="['/']"> </span>
+    <!-- <mat-icon>keyboard_arrow_right</mat-icon> -->
+
+    <ng-container *ngFor="let link of data">
+      <span [routerLink]="link?.path"> {{link?.label}} </span>
+      <mat-icon>keyboard_arrow_right</mat-icon>
+    </ng-container>
+
+  </div>
+
+</ng-container>
