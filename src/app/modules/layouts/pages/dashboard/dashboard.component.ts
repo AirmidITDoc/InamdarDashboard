@@ -160,7 +160,36 @@ export class DashboardComponent implements OnInit {
     mode: 'MISDashboards',
   };
 
-  displayedColumnsData: any[] = [
+  displayedColumnsYear: string[] = [
+    'BillYear',
+    'IPD_B_TotalBillAmountSum',
+    'OPD_B_TotalBillAmountSum',
+    'PharmaOT',
+    'TotalAmount',
+  ];
+  displayedYearData = new MatTableDataSource([]);
+  payload4 = {
+    SearchFields: [
+      {
+        FieldName: 'pDashboardId',
+        FieldValue: '1',
+        OpType: '13',
+      },
+      {
+        FieldName: 'pFrequency',
+        FieldValue: 'Y',
+        OpType: '13',
+      },
+      {
+        FieldName: 'pStartYear',
+        FieldValue: '2024',
+        OpType: '13',
+      },
+    ],
+    mode: 'MISDashboards',
+  };
+
+  displayedMonthData: any[] = [
     { key: 'monthName', value: 'Month' },
     { key: 'ipd.2022', value: '2022' },
     { key: 'ipd.2023', value: '2023' },
@@ -204,6 +233,7 @@ export class DashboardComponent implements OnInit {
     this.getListing(this.payload1, 1);
     this.getListing(this.payload2, 2);
     this.getListing(this.payload3, 3);
+    this.getListing(this.payload4, 4);
   }
   getListing(payLoad: any, type: number) {
     this.showLoader = true;
@@ -232,21 +262,24 @@ export class DashboardComponent implements OnInit {
       case 3:
         this.dataSource3 = new MatTableDataSource(response.Data.Table);
         break;
+      case 4:
+        this.displayedYearData = new MatTableDataSource(response.Data.Table);
+        break;
     }
     if (type == 1) {
       this.dataCompareListData = [];
       let compareList = response.Data.Table;
       let yerList = this.selectedYearList;
 
-      this.displayedColumnsData = [{ key: 'monthName', value: 'Month' }];
+      this.displayedMonthData = [{ key: 'monthName', value: 'Month' }];
       this.displayedColumns = [];
-      let displayedColumnsData: any = [];
+      let displayedMonthData: any = [];
       if (
         this.selectedSectionList.filter((s: string) => s == 'ipd')?.length > 0
       ) {
         this.headerGroup.push('header-row-sec-group');
         yerList.forEach((eleYear: any) => {
-          displayedColumnsData.push({
+          displayedMonthData.push({
             key: 'ipd.' + eleYear,
             value: eleYear.toString(),
           });
@@ -257,7 +290,7 @@ export class DashboardComponent implements OnInit {
       ) {
         this.headerGroup.push('header-row-third-group');
         yerList.forEach((eleYear: any) => {
-          displayedColumnsData.push({
+          displayedMonthData.push({
             key: 'opd.' + eleYear,
             value: eleYear.toString(),
           });
@@ -269,27 +302,26 @@ export class DashboardComponent implements OnInit {
       ) {
         this.headerGroup.push('header-row-forth-group');
         yerList.forEach((eleYear: any) => {
-          displayedColumnsData.push({
+          displayedMonthData.push({
             key: 'pharma.' + eleYear,
             value: eleYear.toString(),
           });
         });
-      } else {
       }
       this.headerGroup.push('header-row-fifth-group');
       yerList.forEach((eleYear: any) => {
-        displayedColumnsData.push({
+        displayedMonthData.push({
           key: 'total.' + eleYear,
           value: eleYear.toString(),
         });
       });
-      this.displayedColumnsData = Object.assign(
+      this.displayedMonthData = Object.assign(
         [],
-        [...this.displayedColumnsData, ...displayedColumnsData] || []
+        [...this.displayedMonthData, ...displayedMonthData] || []
       );
       this.displayedColumns = Object.assign(
         [],
-        this.displayedColumnsData.map((s) => s.key) || []
+        this.displayedMonthData.map((s) => s.key) || []
       );
       this.columnsToDisplay = this.displayedColumns.slice();
 
@@ -347,5 +379,28 @@ export class DashboardComponent implements OnInit {
     this.selectedSectionList = type;
     this.headerGroup = ['header-row-first-group'];
     this.getListing(this.payload1, 1);
+  }
+  onSectionChangeYear(event: any) {
+    let type = event?.value?.length > 0 ? event?.value : this.sectionList;
+    this.selectedSectionList = type;
+    this.displayedColumnsYear = [];
+    this.displayedColumnsYear.push('BillYear');
+    if (
+      this.selectedSectionList.filter((s: string) => s == 'ipd')?.length > 0
+    ) {
+      this.displayedColumnsYear.push('IPD_B_TotalBillAmountSum');
+    }
+    if (
+      this.selectedSectionList.filter((s: string) => s == 'opd')?.length > 0
+    ) {
+      this.displayedColumnsYear.push('OPD_B_TotalBillAmountSum');
+    }
+    if (
+      this.selectedSectionList.filter((s: string) => s == 'pharma')?.length >
+      0
+    ) {
+      this.displayedColumnsYear.push('PharmaOT');
+    }
+    this.displayedColumnsYear.push('TotalAmount');
   }
 }
