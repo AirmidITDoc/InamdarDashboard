@@ -393,6 +393,7 @@ export class DashboardComponent implements OnInit {
     this.showLoader = true;
     this._cs.getDashboardListing(payLoad).subscribe(
       (response: any) => {
+        debugger
         if (response.StatusCode == 200) {
           this.setTableData(response, type);
         } else {

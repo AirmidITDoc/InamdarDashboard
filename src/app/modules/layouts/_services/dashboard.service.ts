@@ -7,6 +7,6 @@ export class DashboardService {
   constructor(private _http: HttpService) { }
 
   getDashboardListing(body: any, showLoader = true) {
-    return this._http.post("Common", body, showLoader);
+    return this._http.post("Common/get-daily-dashboard-data", body, showLoader);
   }
 }
