@@ -22,7 +22,6 @@ import {
   ApexChart,
   ApexGrid,
   ApexLegend,
-  ApexPlotOptions,
   NgApexchartsModule,
   ChartComponent
 } from "ng-apexcharts";
@@ -40,16 +39,6 @@ export type ChartOptions = {
   legend: ApexLegend;
   title: ApexTitleSubtitle;
 };
-
-export type ChartOptions1 = {
-  series: ApexAxisChartSeries;
-  chart: ApexChart;
-  dataLabels: ApexDataLabels;
-  plotOptions: ApexPlotOptions;
-  xaxis: ApexXAxis;
-  stroke: ApexStroke;
-};
-
 
 const MODULES = [
   CommonModule,
@@ -76,24 +65,58 @@ const MODULES = [
 export class DashboardComponent implements OnInit {
   @ViewChild("chart") chart!: ChartComponent | any;
   public chartOptions!: Partial<ChartOptions> | any;
-  @ViewChild("chart1") chart1!: ChartComponent | any;
-  public chartOptions1!: Partial<ChartOptions1> | any;
 
-
+  yearlyChartData =  {
+    xaxisData: ["2020","2021","2022","2023","2024"],
+    yaxisData: [
+      {ipd:42,opd:52,pharma:24},
+      {ipd:35,opd:41,pharma:62},
+      {ipd:87,opd:57,pharma:74},
+      {ipd:26,opd:21,pharma:6},
+      {ipd:18,opd:29,pharma:37}
+    ]
+  };
+  montlyChartData =  {
+    xaxisData: ["Jan-2024","Feb-2024","Mar-2024","Apr-2024","May-2024","Jun-2024","Jul-2024","Aug-2024","Sep-2024","Oct-2024","Nov-2024","Dec-2024"],
+    yaxisData: [
+      {ipd:42,opd:52,pharma:24},
+      {ipd:35,opd:41,pharma:62},
+      {ipd:87,opd:57,pharma:74},
+      {ipd:26,opd:21,pharma:6},
+      {ipd:18,opd:29,pharma:37},
+      {ipd:38,opd:62,pharma:47},
+      {ipd:22,opd:82,pharma:24},
+      {ipd:15,opd:51,pharma:42},
+      {ipd:67,opd:77,pharma:24},
+      {ipd:6,opd:26,pharma:60},
+      {ipd:28,opd:39,pharma:77},
+      {ipd:68,opd:42,pharma:87}
+    ]
+  };
+  chartList: any = ['Yearly', 'Monthly'];
+  ddlChart: any = 'Monthly';
   constructor(private _toast: ToastService, private _cs: DashboardService) {
+    this.chartLoad(this.montlyChartData,this.ddlChart);
+  }
+  onChartChangeYear(event: any) {
+    this.ddlChart = event?.value?.length > 0 ? event?.value : 'Monthly';
+    let chartList = this.ddlChart == 'Monthly' ? this.montlyChartData : this.yearlyChartData;
+    this.chartLoad(chartList,this.ddlChart);
+  }
+  chartLoad(data:any,type:string){
     this.chartOptions = {
       series: [
         {
           name: "IPD",
-          data: [45, 52, 38, 24, 33, 26, 21, 20, 6, 8, 15, 10]
+          data: data.yaxisData.map((x:any)=>x.ipd)
         },
         {
           name: "OPD",
-          data: [35, 41, 62, 42, 13, 18, 29, 37, 36, 51, 32, 35]
+          data: data.yaxisData.map((x:any)=>x.opd)
         },
         {
           name: "Pharma",
-          data: [87, 57, 74, 99, 75, 38, 62, 47, 82, 56, 45, 47]
+          data: data.yaxisData.map((x:any)=>x.pharma)
         }
       ],
       chart: {
@@ -108,10 +131,10 @@ export class DashboardComponent implements OnInit {
         curve: "straight",
         dashArray: [0, 0, 0]
       },
-      // title: {
-      //   text: "Page Statistics",
-      //   align: "left"
-      // },
+      title: {
+        text: type + " Chart",
+        align: "center"
+      },
       legend: {
         tooltipHoverFormatter: function(val:any, opts:any) {
           return (
@@ -132,20 +155,7 @@ export class DashboardComponent implements OnInit {
         labels: {
           trim: false
         },
-        categories: [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep",
-          "Oct",
-          "Nov",
-          "Dec"
-        ]
+        categories: data.xaxisData
       },
       tooltip: {
         y: [
@@ -176,57 +186,10 @@ export class DashboardComponent implements OnInit {
         borderColor: "#f1f1f1"
       }
     };
-
-    this.chartOptions1 = {
-      series: [
-        {
-          name: "IPD",
-          data: [44, 55, 41, 64, 22, 43, 21]
-        },
-        {
-          name: "OPD",
-
-          data: [53, 32, 33, 52, 13, 44, 32]
-        },
-        {
-          name: "PHARMA",
-
-          data: [33, 52, 58, 42, 35, 15, 24]
-        }
-      ],
-      chart: {
-        type: "bar",
-        height: 430
-      },
-      plotOptions: {
-        bar: {
-          horizontal: true,
-          dataLabels: {
-            position: "top"
-          }
-        }
-      },
-      dataLabels: {
-        enabled: true,
-        offsetX: -6,
-        style: {
-          fontSize: "12px",
-          colors: ["#fff"]
-        }
-      },
-      stroke: {
-        show: true,
-        width: 1,
-        colors: ["#fff"]
-      },
-      xaxis: {
-        categories: [2020, 2021, 2022, 2023, 2024]
-      }
-    };
   }
+
   showLoader = false;
   notData: boolean = false;
-  //dataCompareList: any = [];
   dataCompareList = new MatTableDataSource([]);
   monthList = [
     'January',

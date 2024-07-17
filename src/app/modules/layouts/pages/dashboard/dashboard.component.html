@@ -1,40 +1,46 @@
 <div class="row">
-  <div class="col-lg-12" style="margin-top: 20px;margin-bottom: 20px;">
-    <div class="m-r-auto">
-      <mat-card-title>Line Chart</mat-card-title>
-    </div>
+  <div class="col-lg-12">
+    <mat-card class="cardWithShadow">
+      <mat-card-content class="p-24">
+        <mat-card-header>
+          <div class="m-r-auto">
+            <mat-card-title>Line Chart</mat-card-title>
+          </div>
+          <mat-form-field>
+            <mat-label>Chart Type</mat-label>
+            <mat-select
+              matTooltip="Select Chart Type"
+              placeholder="Select Chart Type"
+              [(ngModel)]="ddlChart"
+              (selectionChange)="onChartChangeYear($event)"
+            >
+              <mat-option
+                class="assign-role"
+                *ngFor="let sec of chartList"
+                [value]="sec"
+                >{{ sec | uppercase }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </mat-card-header>
+        <div id="chart" class="col-lg-12">
+          <apx-chart
+            [series]="chartOptions.series"
+            [chart]="chartOptions.chart"
+            [xaxis]="chartOptions.xaxis"
+            [stroke]="chartOptions.stroke"
+            [tooltip]="chartOptions.tooltip"
+            [dataLabels]="chartOptions.dataLabels"
+            [legend]="chartOptions.legend"
+            [markers]="chartOptions.markers"
+            [grid]="chartOptions.grid"
+            [yaxis]="chartOptions.yaxis"
+            [title]="chartOptions.title"
+          ></apx-chart>
+        </div>
+      </mat-card-content>
+    </mat-card>
   </div>
-  <div id="chart" class="col-lg-12">
-    <apx-chart
-      [series]="chartOptions.series"
-      [chart]="chartOptions.chart"
-      [xaxis]="chartOptions.xaxis"
-      [stroke]="chartOptions.stroke"
-      [tooltip]="chartOptions.tooltip"
-      [dataLabels]="chartOptions.dataLabels"
-      [legend]="chartOptions.legend"
-      [markers]="chartOptions.markers"
-      [grid]="chartOptions.grid"
-      [yaxis]="chartOptions.yaxis"
-      [title]="chartOptions.title"
-    ></apx-chart>
-  </div>
-
-  <!-- <div class="col-lg-12" style="margin-top: 20px;margin-bottom: 20px;">
-    <div class="m-r-auto">
-      <mat-card-title>Bar Chart</mat-card-title>
-    </div>
-  </div>
-  <div id="chart1" class="col-lg-12">
-    <apx-chart
-      [series]="chartOptions1.series"
-      [chart]="chartOptions1.chart"
-      [dataLabels]="chartOptions1.dataLabels"
-      [plotOptions]="chartOptions1.plotOptions"
-      [xaxis]="chartOptions1.xaxis"
-      [stroke]="chartOptions1.stroke"
-    ></apx-chart>
-  </div> -->
 
   <div class="col-lg-12">
     <mat-tab-group>
