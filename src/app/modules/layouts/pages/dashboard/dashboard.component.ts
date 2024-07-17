@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { RouterModule } from '@angular/router';
@@ -11,6 +11,46 @@ import { AbsoluteRoutePipe } from 'src/app/pipes/absolute-route/absolute-route.p
 import { ErrorMessagePipe } from 'src/app/pipes/error-message/error-message.pipe';
 import { EmptyValuePipe } from "../../../../pipes/empty-value/empty-value.pipe";
 import { DashboardService } from '../../_services/dashboard.service';
+import {
+  ApexAxisChartSeries,
+  ApexTitleSubtitle,
+  ApexDataLabels,
+  ApexMarkers,
+  ApexYAxis,
+  ApexXAxis,
+  ApexStroke,
+  ApexChart,
+  ApexGrid,
+  ApexLegend,
+  ApexPlotOptions,
+  NgApexchartsModule,
+  ChartComponent
+} from "ng-apexcharts";
+
+export type ChartOptions = {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  xaxis: ApexXAxis;
+  stroke: ApexStroke;
+  dataLabels: ApexDataLabels;
+  markers: ApexMarkers;
+  tooltip: any; // ApexTooltip;
+  yaxis: ApexYAxis;
+  grid: ApexGrid;
+  legend: ApexLegend;
+  title: ApexTitleSubtitle;
+};
+
+export type ChartOptions1 = {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  dataLabels: ApexDataLabels;
+  plotOptions: ApexPlotOptions;
+  xaxis: ApexXAxis;
+  stroke: ApexStroke;
+};
+
+
 const MODULES = [
   CommonModule,
   FormsModule,
@@ -21,6 +61,8 @@ const MODULES = [
   AbsoluteRoutePipe,
   RouterModule,
   ErrorMessagePipe,
+  EmptyValuePipe,
+  NgApexchartsModule
 ];
 
 @Component({
@@ -29,10 +71,159 @@ const MODULES = [
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
   providers: [DashboardService],
-  imports: [MODULES, EmptyValuePipe],
+  imports: [MODULES],
 })
 export class DashboardComponent implements OnInit {
-  constructor(private _toast: ToastService, private _cs: DashboardService) {}
+  @ViewChild("chart") chart!: ChartComponent | any;
+  public chartOptions!: Partial<ChartOptions> | any;
+  @ViewChild("chart1") chart1!: ChartComponent | any;
+  public chartOptions1!: Partial<ChartOptions1> | any;
+
+
+  constructor(private _toast: ToastService, private _cs: DashboardService) {
+    this.chartOptions = {
+      series: [
+        {
+          name: "IPD",
+          data: [45, 52, 38, 24, 33, 26, 21, 20, 6, 8, 15, 10]
+        },
+        {
+          name: "OPD",
+          data: [35, 41, 62, 42, 13, 18, 29, 37, 36, 51, 32, 35]
+        },
+        {
+          name: "Pharma",
+          data: [87, 57, 74, 99, 75, 38, 62, 47, 82, 56, 45, 47]
+        }
+      ],
+      chart: {
+        height: 500,
+        type: "line"
+      },
+      dataLabels: {
+        enabled: false
+      },
+      stroke: {
+        width: 4,
+        curve: "straight",
+        dashArray: [0, 0, 0]
+      },
+      // title: {
+      //   text: "Page Statistics",
+      //   align: "left"
+      // },
+      legend: {
+        tooltipHoverFormatter: function(val:any, opts:any) {
+          return (
+            val +
+            " - <strong>" +
+            opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] +
+            "</strong>"
+          );
+        }
+      },
+      markers: {
+        size: 5,
+        hover: {
+          sizeOffset: 3
+        }
+      },
+      xaxis: {
+        labels: {
+          trim: false
+        },
+        categories: [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec"
+        ]
+      },
+      tooltip: {
+        y: [
+          {
+            title: {
+              formatter: function(val:any) {
+                return val;
+              }
+            }
+          },
+          {
+            title: {
+              formatter: function(val:any) {
+                return val;
+              }
+            }
+          },
+          {
+            title: {
+              formatter: function(val:any) {
+                return val;
+              }
+            }
+          }
+        ]
+      },
+      grid: {
+        borderColor: "#f1f1f1"
+      }
+    };
+
+    this.chartOptions1 = {
+      series: [
+        {
+          name: "IPD",
+          data: [44, 55, 41, 64, 22, 43, 21]
+        },
+        {
+          name: "OPD",
+
+          data: [53, 32, 33, 52, 13, 44, 32]
+        },
+        {
+          name: "PHARMA",
+
+          data: [33, 52, 58, 42, 35, 15, 24]
+        }
+      ],
+      chart: {
+        type: "bar",
+        height: 430
+      },
+      plotOptions: {
+        bar: {
+          horizontal: true,
+          dataLabels: {
+            position: "top"
+          }
+        }
+      },
+      dataLabels: {
+        enabled: true,
+        offsetX: -6,
+        style: {
+          fontSize: "12px",
+          colors: ["#fff"]
+        }
+      },
+      stroke: {
+        show: true,
+        width: 1,
+        colors: ["#fff"]
+      },
+      xaxis: {
+        categories: [2020, 2021, 2022, 2023, 2024]
+      }
+    };
+  }
   showLoader = false;
   notData: boolean = false;
   //dataCompareList: any = [];
