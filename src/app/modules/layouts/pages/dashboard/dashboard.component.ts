@@ -542,6 +542,9 @@ export class DashboardComponent implements OnInit {
   onYearChange(event: any = []) {
     let type = event?.value?.length > 0 ? event?.value : this.selectedYearList;
     this.selectedYearList = type;
+    let param=this.payload1.SearchFields.find(x=>x.FieldName=='pStartYear');
+    if(param)
+      param.FieldValue=Math.min.apply(null, type).toString();
     this.headerGroup = ['header-row-first-group'];
     this.getListing(this.payload1, 1);
   }
