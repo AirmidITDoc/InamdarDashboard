@@ -65,38 +65,38 @@ const MODULES = [
 export class DashboardComponent implements OnInit {
   @ViewChild("chart") chart!: ChartComponent | any;
   public chartOptions!: Partial<ChartOptions> | any;
-
-  yearlyChartData =  {
-    xaxisData: ["2020","2021","2022","2023","2024"],
-    yaxisData: [
-      {ipd:42,opd:52,pharma:24},
-      {ipd:35,opd:41,pharma:62},
-      {ipd:87,opd:57,pharma:74},
-      {ipd:26,opd:21,pharma:6},
-      {ipd:18,opd:29,pharma:37}
-    ]
-  };
-  montlyChartData =  {
-    xaxisData: ["Jan-2024","Feb-2024","Mar-2024","Apr-2024","May-2024","Jun-2024","Jul-2024","Aug-2024","Sep-2024","Oct-2024","Nov-2024","Dec-2024"],
-    yaxisData: [
-      {ipd:42,opd:52,pharma:24},
-      {ipd:35,opd:41,pharma:62},
-      {ipd:87,opd:57,pharma:74},
-      {ipd:26,opd:21,pharma:6},
-      {ipd:18,opd:29,pharma:37},
-      {ipd:38,opd:62,pharma:47},
-      {ipd:22,opd:82,pharma:24},
-      {ipd:15,opd:51,pharma:42},
-      {ipd:67,opd:77,pharma:24},
-      {ipd:6,opd:26,pharma:60},
-      {ipd:28,opd:39,pharma:77},
-      {ipd:68,opd:42,pharma:87}
-    ]
-  };
+  yearlyChartData: any = {};
+  montlyChartData: any = {};
+  // yearlyChartData =  {
+  //   xaxisData: ["2020","2021","2022","2023","2024"],
+  //   yaxisData: [
+  //     {ipd:42,opd:52,pharma:24},
+  //     {ipd:35,opd:41,pharma:62},
+  //     {ipd:87,opd:57,pharma:74},
+  //     {ipd:26,opd:21,pharma:6},
+  //     {ipd:18,opd:29,pharma:37}
+  //   ]
+  // };
+  // montlyChartData =  {
+  //   xaxisData: ["Jan-2024","Feb-2024","Mar-2024","Apr-2024","May-2024","Jun-2024","Jul-2024","Aug-2024","Sep-2024","Oct-2024","Nov-2024","Dec-2024"],
+  //   yaxisData: [
+  //     {ipd:42,opd:52,pharma:24},
+  //     {ipd:35,opd:41,pharma:62},
+  //     {ipd:87,opd:57,pharma:74},
+  //     {ipd:26,opd:21,pharma:6},
+  //     {ipd:18,opd:29,pharma:37},
+  //     {ipd:38,opd:62,pharma:47},
+  //     {ipd:22,opd:82,pharma:24},
+  //     {ipd:15,opd:51,pharma:42},
+  //     {ipd:67,opd:77,pharma:24},
+  //     {ipd:6,opd:26,pharma:60},
+  //     {ipd:28,opd:39,pharma:77},
+  //     {ipd:68,opd:42,pharma:87}
+  //   ]
+  // };
   chartList: any = ['Yearly', 'Monthly'];
   ddlChart: any = 'Monthly';
   constructor(private _toast: ToastService, private _cs: DashboardService) {
-    this.chartLoad(this.montlyChartData,this.ddlChart);
   }
   onChartChangeYear(event: any) {
     this.ddlChart = event?.value?.length > 0 ? event?.value : 'Monthly';
@@ -214,10 +214,10 @@ export class DashboardComponent implements OnInit {
   yearList = this.range(this.currentYear, this.currentYear - 4, -1);
   displayedColumns1: string[] = [
     'BillMonth',
-    'IPD_B_TotalBillAmountSum',
-    'OPD_B_TotalBillAmountSum',
-    'PharmaOT',
-    'TotalAmount',
+    'Ipd',
+    'Opd',
+    'Pharma',
+    'Total',
   ];
   dataSource1 = new MatTableDataSource([]);
   payload1 = {
@@ -243,13 +243,13 @@ export class DashboardComponent implements OnInit {
 
   displayedColumns2: string[] = [
     'BillMonth',
-    'HospitalPatientCount',
+    'HospitalPatient',
     'HospitalPatientPer',
-    'PrivatePatientCount',
+    'PrivatePatient',
     'PrivatePatientPer',
-    'ReferalPatientCount',
+    'ReferalPatient',
     'ReferalPatientPer',
-    'TotalPatientsCount',
+    'Total',
   ];
   dataSource2 = new MatTableDataSource([]);
   payload2 = {
@@ -290,7 +290,7 @@ export class DashboardComponent implements OnInit {
     'Jul_Patients',
     'Jul_Percentage',
     'TotalCount',
-    'TotalPercentage',
+    //'TotalPercentage',
   ];
   dataSource3 = new MatTableDataSource([]);
   payload3 = {
@@ -316,10 +316,10 @@ export class DashboardComponent implements OnInit {
 
   displayedColumnsYear: string[] = [
     'BillYear',
-    'IPD_B_TotalBillAmountSum',
-    'OPD_B_TotalBillAmountSum',
-    'PharmaOT',
-    'TotalAmount',
+    'Ipd',
+    'Opd',
+    'Pharma',
+    'Total',
   ];
   displayedYearData = new MatTableDataSource([]);
   payload4 = {
@@ -393,7 +393,6 @@ export class DashboardComponent implements OnInit {
     this.showLoader = true;
     this._cs.getDashboardListing(payLoad).subscribe(
       (response: any) => {
-        debugger
         if (response.StatusCode == 200) {
           this.setTableData(response, type);
         } else {
@@ -409,21 +408,21 @@ export class DashboardComponent implements OnInit {
     this.showLoader = false;
     switch (type) {
       case 1:
-        this.dataSource1 = new MatTableDataSource(response.Data.Table);
+        this.dataSource1 = new MatTableDataSource(response.Data);
         break;
       case 2:
-        this.dataSource2 = new MatTableDataSource(response.Data.Table);
+        this.dataSource2 = new MatTableDataSource(response.Data);
         break;
       case 3:
-        this.dataSource3 = new MatTableDataSource(response.Data.Table);
+        this.dataSource3 = new MatTableDataSource(response.Data);
         break;
       case 4:
-        this.displayedYearData = new MatTableDataSource(response.Data.Table);
+        this.displayedYearData = new MatTableDataSource(response.Data);
         break;
     }
     if (type == 1) {
       this.dataCompareListData = [];
-      let compareList = response.Data.Table;
+      let compareList = response.Data;
       let yerList = this.selectedYearList;
 
       this.displayedMonthData = [{ key: 'monthName', value: 'Month' }];
@@ -493,17 +492,34 @@ export class DashboardComponent implements OnInit {
           let valData = compareList.find(
             (x: any) => x.BillMonth == j + 1 && x.BillYear == eleYear
           );
-          obj['ipd'][eleYear] = valData?.IPD_B_TotalBillAmountSum || '';
-          obj['opd'][eleYear] = valData?.OPD_B_TotalBillAmountSum || '';
-          obj['pharma'][eleYear] = valData?.PharmaOT || '';
-          obj['total'][eleYear] = valData?.TotalAmount || '';
+          obj['ipd'][eleYear] = valData?.Ipd || '';
+          obj['opd'][eleYear] = valData?.Opd || '';
+          obj['pharma'][eleYear] = valData?.Pharma || '';
+          obj['total'][eleYear] = valData?.Total || '';
         });
         this.dataCompareListData.push(obj);
       });
       this.dataCompareList = new MatTableDataSource(this.dataCompareListData);
+      // Chart Data Set
+      this.montlyChartData.xaxisData = response.Data.map((x:any) =>  this.monthList[x.BillMonth-1] + '-' + x.BillYear);
+      let yaxisData:any =[];
+      response.Data.forEach((element:any) => {
+        yaxisData.push({ipd:element.Ipd, opd:element.Opd, pharma:element.Pharma})
+      });
+      this.montlyChartData.yaxisData = yaxisData;
+      this.chartLoad(this.montlyChartData,this.ddlChart);
+    } else if(type==4){
+      // Chart Data Set
+      this.yearlyChartData.xaxisData = response.Data.map((x:any) => x.BillYear);
+      let yaxisData:any =[];
+      response.Data.forEach((element:any) => {
+        yaxisData.push({ipd:element.Ipd, opd:element.Opd, pharma:element.Pharma})
+      });
+      this.yearlyChartData.yaxisData = yaxisData;
+      //this.chartLoad(this.yearlyChartData,this.ddlChart);
     }
 
-    if (!response.Data.Table) {
+    if (!response.Data) {
       this.notData = true;
     } else {
       this.notData = false;
@@ -543,19 +559,19 @@ export class DashboardComponent implements OnInit {
     if (
       this.selectedSectionList.filter((s: string) => s == 'ipd')?.length > 0
     ) {
-      this.displayedColumnsYear.push('IPD_B_TotalBillAmountSum');
+      this.displayedColumnsYear.push('Ipd');
     }
     if (
       this.selectedSectionList.filter((s: string) => s == 'opd')?.length > 0
     ) {
-      this.displayedColumnsYear.push('OPD_B_TotalBillAmountSum');
+      this.displayedColumnsYear.push('Opd');
     }
     if (
       this.selectedSectionList.filter((s: string) => s == 'pharma')?.length >
       0
     ) {
-      this.displayedColumnsYear.push('PharmaOT');
+      this.displayedColumnsYear.push('Pharma');
     }
-    this.displayedColumnsYear.push('TotalAmount');
+    this.displayedColumnsYear.push('Total');
   }
 }

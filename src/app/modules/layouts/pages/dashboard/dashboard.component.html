@@ -23,7 +23,7 @@
             </mat-select>
           </mat-form-field>
         </mat-card-header>
-        <div id="chart" class="col-lg-12">
+        <div id="chart" class="col-lg-12" *ngIf="this.montlyChartData !== undefined && this.montlyChartData !== null">
           <apx-chart
             [series]="chartOptions.series"
             [chart]="chartOptions.chart"
@@ -87,8 +87,8 @@
                     </td>
                   </ng-container>
 
-                  <!-- IPD_B_TotalBillAmountSum Column -->
-                  <ng-container matColumnDef="IPD_B_TotalBillAmountSum">
+                  <!-- IPD Column -->
+                  <ng-container matColumnDef="Ipd">
                     <th
                       mat-header-cell
                       *matHeaderCellDef
@@ -97,12 +97,12 @@
                       IPD
                     </th>
                     <td mat-cell *matCellDef="let element" class="mat-body-1">
-                      {{ element.IPD_B_TotalBillAmountSum | emptyValue }}
+                      {{ element.Ipd | emptyValue }}
                     </td>
                   </ng-container>
 
-                  <!-- OPD_B_TotalBillAmountSum Column -->
-                  <ng-container matColumnDef="OPD_B_TotalBillAmountSum">
+                  <!-- OPD Column -->
+                  <ng-container matColumnDef="Opd">
                     <th
                       mat-header-cell
                       *matHeaderCellDef
@@ -111,12 +111,12 @@
                       OPD
                     </th>
                     <td mat-cell *matCellDef="let element" class="mat-body-1">
-                      {{ element.OPD_B_TotalBillAmountSum | emptyValue }}
+                      {{ element.Opd | emptyValue }}
                     </td>
                   </ng-container>
 
-                  <!-- PharmaOT Column -->
-                  <ng-container matColumnDef="PharmaOT">
+                  <!-- Pharma Column -->
+                  <ng-container matColumnDef="Pharma">
                     <th
                       mat-header-cell
                       *matHeaderCellDef
@@ -125,12 +125,12 @@
                       Pharma
                     </th>
                     <td mat-cell *matCellDef="let element" class="mat-body-1">
-                      {{ element.PharmaOT | emptyValue }}
+                      {{ element.Pharma | emptyValue }}
                     </td>
                   </ng-container>
 
-                  <!-- TotalAmount Column -->
-                  <ng-container matColumnDef="TotalAmount">
+                  <!-- Total Column -->
+                  <ng-container matColumnDef="Total">
                     <th
                       mat-header-cell
                       *matHeaderCellDef
@@ -139,7 +139,7 @@
                       Total Amount
                     </th>
                     <td mat-cell *matCellDef="let element" class="mat-body-1">
-                      {{ element.TotalAmount | emptyValue }}
+                      {{ element.Total | emptyValue }}
                     </td>
                   </ng-container>
 
@@ -340,59 +340,59 @@
               </td>
             </ng-container>
 
-            <!-- IPD_B_TotalBillAmountSum Column -->
-            <ng-container matColumnDef="IPD_B_TotalBillAmountSum">
+            <!-- IPD  Column -->
+            <ng-container matColumnDef="Ipd">
               <th
                 mat-header-cell
                 *matHeaderCellDef
                 class="f-w-600 mat-subtitle-1 f-s-14"
               >
-                IPD Bill Total Amount
+                IPD
               </th>
               <td mat-cell *matCellDef="let element" class="mat-body-1">
-                {{ element.IPD_B_TotalBillAmountSum | emptyValue }}
+                {{ element.Ipd | emptyValue }}
               </td>
             </ng-container>
 
-            <!-- OPD_B_TotalBillAmountSum Column -->
-            <ng-container matColumnDef="OPD_B_TotalBillAmountSum">
+            <!-- OPD Column -->
+            <ng-container matColumnDef="Opd">
               <th
                 mat-header-cell
                 *matHeaderCellDef
                 class="f-w-600 mat-subtitle-1 f-s-14"
               >
-                IPD Bill Total Amount
+              OPD
               </th>
               <td mat-cell *matCellDef="let element" class="mat-body-1">
-                {{ element.OPD_B_TotalBillAmountSum | emptyValue }}
+                {{ element.Opd | emptyValue }}
               </td>
             </ng-container>
 
-            <!-- PharmaOT Column -->
-            <ng-container matColumnDef="PharmaOT">
+            <!-- Pharma Column -->
+            <ng-container matColumnDef="Pharma">
               <th
                 mat-header-cell
                 *matHeaderCellDef
                 class="f-w-600 mat-subtitle-1 f-s-14"
               >
-                Pharma OT
+                Pharma
               </th>
               <td mat-cell *matCellDef="let element" class="mat-body-1">
-                {{ element.PharmaOT | emptyValue }}
+                {{ element.Pharma | emptyValue }}
               </td>
             </ng-container>
 
-            <!-- TotalAmount Column -->
-            <ng-container matColumnDef="TotalAmount">
+            <!-- Total Column -->
+            <ng-container matColumnDef="Total">
               <th
                 mat-header-cell
                 *matHeaderCellDef
                 class="f-w-600 mat-subtitle-1 f-s-14"
               >
-                Total Amount
+                Total
               </th>
               <td mat-cell *matCellDef="let element" class="mat-body-1">
-                {{ element.TotalAmount | emptyValue }}
+                {{ element.Total | emptyValue }}
               </td>
             </ng-container>
 
@@ -429,8 +429,8 @@
               </td>
             </ng-container>
 
-            <!-- HospitalPatientCount Column -->
-            <ng-container matColumnDef="HospitalPatientCount">
+            <!-- HospitalPatient Column -->
+            <ng-container matColumnDef="HospitalPatient">
               <th
                 mat-header-cell
                 *matHeaderCellDef
@@ -439,7 +439,7 @@
                 Hospital Patient Count
               </th>
               <td mat-cell *matCellDef="let element" class="mat-body-1">
-                {{ element.HospitalPatientCount | emptyValue }}
+                {{ element.HospitalPatient | emptyValue }}
               </td>
             </ng-container>
 
@@ -457,8 +457,8 @@
               </td>
             </ng-container>
 
-            <!-- PrivatePatientCount Column -->
-            <ng-container matColumnDef="PrivatePatientCount">
+            <!-- PrivatePatient Column -->
+            <ng-container matColumnDef="PrivatePatient">
               <th
                 mat-header-cell
                 *matHeaderCellDef
@@ -467,7 +467,7 @@
                 Private Patient Count
               </th>
               <td mat-cell *matCellDef="let element" class="mat-body-1">
-                {{ element.PrivatePatientCount | emptyValue }}
+                {{ element.PrivatePatient | emptyValue }}
               </td>
             </ng-container>
 
@@ -485,8 +485,8 @@
               </td>
             </ng-container>
 
-            <!-- ReferalPatientCount Column -->
-            <ng-container matColumnDef="ReferalPatientCount">
+            <!-- ReferalPatient Column -->
+            <ng-container matColumnDef="ReferalPatient">
               <th
                 mat-header-cell
                 *matHeaderCellDef
@@ -495,7 +495,7 @@
                 Referal Patient Count
               </th>
               <td mat-cell *matCellDef="let element" class="mat-body-1">
-                {{ element.ReferalPatientCount | emptyValue }}
+                {{ element.ReferalPatient | emptyValue }}
               </td>
             </ng-container>
 
@@ -513,8 +513,8 @@
               </td>
             </ng-container>
 
-            <!-- TotalPatientsCount Column -->
-            <ng-container matColumnDef="TotalPatientsCount">
+            <!-- Total Column -->
+            <ng-container matColumnDef="Total">
               <th
                 mat-header-cell
                 *matHeaderCellDef
@@ -523,7 +523,7 @@
                 Total Patients Count
               </th>
               <td mat-cell *matCellDef="let element" class="mat-body-1">
-                {{ element.TotalPatientsCount | emptyValue }}
+                {{ element.Total | emptyValue }}
               </td>
             </ng-container>
 
@@ -771,7 +771,7 @@
             </ng-container>
 
             <!-- TotalPercentage Column -->
-            <ng-container matColumnDef="TotalPercentage">
+            <!-- <ng-container matColumnDef="TotalPercentage">
               <th
                 mat-header-cell
                 *matHeaderCellDef
@@ -782,7 +782,7 @@
               <td mat-cell *matCellDef="let element" class="mat-body-1">
                 {{ element.TotalPercentage }}
               </td>
-            </ng-container>
+            </ng-container> -->
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns3"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns3"></tr>
