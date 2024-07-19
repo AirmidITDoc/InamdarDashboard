@@ -1,4 +1,60 @@
 <div class="row">
+  <div class="col-md-4">
+    <div class="box box1">
+      <!-- <div class="details">
+        <h3>1213</h3>
+        <h4>CLICKS</h4>
+      </div> -->
+      <div id="spark1">
+        <apx-chart
+            [series]="spark1.series"
+            [chart]="spark1.chart"
+            [stroke]="spark1.stroke"
+            [tooltip]="spark1.tooltip"
+            [markers]="spark1.markers"
+            [grid]="spark1.grid"
+          ></apx-chart>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="box box1">
+      <!-- <div class="details">
+        <h3>1213</h3>
+        <h4>CLICKS</h4>
+      </div> -->
+      <div id="spark1">
+        <apx-chart
+            [series]="spark1.series"
+            [chart]="spark1.chart"
+            [stroke]="spark1.stroke"
+            [tooltip]="spark1.tooltip"
+            [markers]="spark1.markers"
+            [grid]="spark1.grid"
+          ></apx-chart>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="box box1">
+      <!-- <div class="details">
+        <h3>1213</h3>
+        <h4>CLICKS</h4>
+      </div> -->
+      <div id="spark1">
+        <apx-chart
+            [series]="spark1.series"
+            [chart]="spark1.chart"
+            [stroke]="spark1.stroke"
+            [tooltip]="spark1.tooltip"
+            [markers]="spark1.markers"
+            [grid]="spark1.grid"
+          ></apx-chart>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
   <div class="col-lg-12">
     <mat-card class="cardWithShadow">
       <mat-card-content class="p-24">
@@ -231,6 +287,8 @@
                           column.key?.split(".")[1] || ""
                         ) | emptyValue
                       }}
+                      <mat-icon>keyboard_arrow_right</mat-icon>
+                      <!-- <mat-icon>arrow_upward</mat-icon> -->
                     </td>
                   </ng-container>
 

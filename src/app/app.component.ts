@@ -11,7 +11,7 @@ import { LoaderComponent } from './components/loader/loader.component';
     CommonModule,
     RouterOutlet,
     LoaderComponent,
-    ToastNotificationComponent,
+    ToastNotificationComponent
   ],
   templateUrl: './app.component.html'
 })
