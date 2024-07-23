@@ -3,6 +3,24 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { RouterModule } from '@angular/router';
+import {
+  ApexAxisChartSeries,
+  ApexChart,
+  ApexDataLabels,
+  ApexGrid,
+  ApexLegend,
+  ApexMarkers,
+  ApexStroke,
+  ApexTitleSubtitle,
+  ApexXAxis,
+  ApexYAxis,
+  ApexPlotOptions,
+  ApexTooltip,
+  ApexResponsive,
+  ChartComponent,
+  NgApexchartsModule
+} from "ng-apexcharts";
+import { IconsModule } from 'src/app/components/icon/icon.module';
 import { MaterialModule } from 'src/app/components/material/material.module';
 import { ToastService } from 'src/app/components/toast-notification/toast.service';
 import { NumberDirective } from 'src/app/directives/number/number.directive';
@@ -11,21 +29,6 @@ import { AbsoluteRoutePipe } from 'src/app/pipes/absolute-route/absolute-route.p
 import { ErrorMessagePipe } from 'src/app/pipes/error-message/error-message.pipe';
 import { EmptyValuePipe } from "../../../../pipes/empty-value/empty-value.pipe";
 import { DashboardService } from '../../_services/dashboard.service';
-import {
-  ApexAxisChartSeries,
-  ApexTitleSubtitle,
-  ApexDataLabels,
-  ApexMarkers,
-  ApexYAxis,
-  ApexXAxis,
-  ApexStroke,
-  ApexChart,
-  ApexGrid,
-  ApexLegend,
-  NgApexchartsModule,
-  ChartComponent
-} from "ng-apexcharts";
-import { MatIconModule } from '@angular/material/icon';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -53,8 +56,19 @@ const MODULES = [
   ErrorMessagePipe,
   EmptyValuePipe,
   NgApexchartsModule,
-  MatIconModule
+  IconsModule
 ];
+
+export interface monthlyChart {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  dataLabels: ApexDataLabels;
+  plotOptions: ApexPlotOptions;
+  tooltip: ApexTooltip;
+  stroke: ApexStroke;
+  legend: ApexLegend;
+  responsive: ApexResponsive;
+}
 
 @Component({
   selector: 'app-dashboard',
@@ -67,6 +81,7 @@ const MODULES = [
 export class DashboardComponent implements OnInit {
   @ViewChild("chart") chart!: ChartComponent | any;
   public chartOptions!: Partial<ChartOptions> | any;
+  public monthlyChart!: Partial<monthlyChart> | any;
   yearlyChartData: any = {};
   montlyChartData: any = {};
   // yearlyChartData =  {
@@ -99,46 +114,48 @@ export class DashboardComponent implements OnInit {
   chartList: any = ['Yearly', 'Monthly'];
   ddlChart: any = 'Monthly';
   constructor(private _toast: ToastService, private _cs: DashboardService) {
-  }
-  spark1:any = {
-    chart: {
-      id: 'spark1',
-      group: 'sparks',
-      type: 'line',
-      height: 80,
-      sparkline: {
-        enabled: true
-      },
-      dropShadow: {
-        enabled: true,
-        top: 1,
-        left: 1,
-        blur: 2,
-        opacity: 0.2,
-      }
-    },
-    series: [{
-      data: [25, 66, 41, 59, 25, 44, 12, 36, 9, 21]
-    }],
-    stroke: {
-      curve: 'smooth'
-    },
-    markers: {
-      size: 0
-    },
-    grid: {
-      padding: {
-        top: 20,
-        bottom: 10,
-        left: 110
-      }
-    },
-    colors: ['#fff'],
-    tooltip: {
-      x: {
-        show: false
-      }
-    }
+        // mohtly earnings chart
+        this.monthlyChart = {
+          series: [
+            {
+              name: '',
+              color: '#49BEFF',
+              data: [25, 66, 20, 40, 12, 58, 20],
+            },
+          ],
+
+          chart: {
+            type: 'area',
+            fontFamily: "'Plus Jakarta Sans', sans-serif;",
+            foreColor: '#adb0bb',
+            toolbar: {
+              show: false,
+            },
+            height: 60,
+            sparkline: {
+              enabled: true,
+            },
+            group: 'sparklines',
+          },
+          stroke: {
+            curve: 'smooth',
+            width: 2,
+          },
+          fill: {
+            colors: ['#E8F7FF'],
+            type: 'solid',
+            opacity: 0.05,
+          },
+          markers: {
+            size: 0,
+          },
+          tooltip: {
+            theme: 'dark',
+            x: {
+              show: false,
+            },
+          },
+        };
   }
 
   onChartChangeYear(event: any) {
@@ -205,7 +222,7 @@ export class DashboardComponent implements OnInit {
           {
             title: {
               formatter: function(val:any) {
-                return val;
+                return val ;
               }
             }
           },
@@ -547,7 +564,7 @@ export class DashboardComponent implements OnInit {
       this.montlyChartData.xaxisData = response.Data.map((x:any) =>  this.monthList[x.BillMonth-1] + '-' + x.BillYear);
       let yaxisData:any =[];
       response.Data.forEach((element:any) => {
-        yaxisData.push({ipd:element.Ipd, opd:element.Opd, pharma:element.Pharma})
+        yaxisData.push({month:element.BillMonth,year:element.BillYear, ipd:element.Ipd, opd:element.Opd, pharma:element.Pharma})
       });
       this.montlyChartData.yaxisData = yaxisData;
       this.chartLoad(this.montlyChartData,this.ddlChart);
@@ -575,6 +592,34 @@ export class DashboardComponent implements OnInit {
     return this.selectedSectionList.filter((s: string) => s == val)?.length > 0
       ? true
       : false;
+  }
+  getMonthArrow(val: any,element:any) {
+    debugger
+    let col = (val?.split(".")[0] || "");
+    let year = ~~(val?.split(".")[1] || "0");
+    if(this.selectedYearList?.length > 1){
+      let selectedYearList:any = Object.assign([],[this.selectedYearList.sort((a:any,b:any) => (a > b ? -1 : 1))][0] || []);
+      let checkYear = selectedYearList[selectedYearList.findIndex((s:number) => s == year) + 1];
+      selectedYearList = Object.assign([],selectedYearList.slice(0,this.selectedYearList?.length-1) || []);
+      if(selectedYearList.filter((s:number) => s == year)?.length > 0){
+        // let current = ~~(this.montlyChartData.yaxisData.find((x:any) =>  x.year == year && x.month == element.month)?.[col] || 0);
+        // let past = ~~(this.montlyChartData.yaxisData.find((x:any) =>  x.year == (year-1) && x.month == element.month)?.[col] || 0);
+        let current = 0; let past = 0;
+        if(this.montlyChartData.yaxisData.filter((x:any) =>  x.year == year && x.month == element.month)?.length == 0){
+          return 0;
+        } else {
+          current = ~~(this.montlyChartData.yaxisData.find((x:any) =>  x.year == year && x.month == element.month)?.[col] || 0);
+        }
+        if(this.montlyChartData.yaxisData.filter((x:any) =>  x.year == (checkYear) && x.month == element.month)?.length == 0){
+          return 0;
+        } else {
+          past = ~~(this.montlyChartData.yaxisData.find((x:any) =>  x.year == (checkYear) && x.month == element.month)?.[col] || 0);
+        }
+        return (current > past) ? 1 : 2;
+      } else
+      return 0;
+    } else
+      return 0;
   }
   chekedOn(val: number) {
     return this.selectedYearList.filter((s: number) => s == val)?.length == 0 &&
@@ -619,5 +664,15 @@ export class DashboardComponent implements OnInit {
       this.displayedColumnsYear.push('Pharma');
     }
     this.displayedColumnsYear.push('Total');
+  }
+  numDifferentiation(val:any) {
+    if (val >= 10000000) {
+      val = (val / 10000000).toFixed(2) + ' Cr';
+    } else if (val >= 100000) {
+      val = (val / 100000).toFixed(2) + ' Lac';
+    } else if(val >= 1000) {
+      val = (val/1000).toFixed(2) + ' K';
+    }
+    return val;
   }
 }
