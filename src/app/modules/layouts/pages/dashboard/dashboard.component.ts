@@ -29,6 +29,7 @@ import { AbsoluteRoutePipe } from 'src/app/pipes/absolute-route/absolute-route.p
 import { ErrorMessagePipe } from 'src/app/pipes/error-message/error-message.pipe';
 import { EmptyValuePipe } from "../../../../pipes/empty-value/empty-value.pipe";
 import { DashboardService } from '../../_services/dashboard.service';
+import { ShortWordsPipe } from 'src/app/pipes/short-words/short-words.pipe';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -55,6 +56,7 @@ const MODULES = [
   RouterModule,
   ErrorMessagePipe,
   EmptyValuePipe,
+  ShortWordsPipe,
   NgApexchartsModule,
   IconsModule
 ];
@@ -75,7 +77,7 @@ export interface monthlyChart {
   standalone: true,
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
-  providers: [DashboardService],
+  providers: [DashboardService,ShortWordsPipe],
   imports: [MODULES],
 })
 export class DashboardComponent implements OnInit {
@@ -114,7 +116,7 @@ export class DashboardComponent implements OnInit {
   chartList: any = ['Yearly', 'Monthly'];
   ddlChart: any = 'Monthly';
 
-  constructor(private _toast: ToastService, private _cs: DashboardService) {
+  constructor(private _toast: ToastService, private _cs: DashboardService,private shortWords: ShortWordsPipe) {
         // mohtly earnings chart
         this.monthlyChart = {
           series: [
@@ -203,7 +205,7 @@ export class DashboardComponent implements OnInit {
           return (
             val +
             " - <strong>" +
-            that.numDifferentiation(opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex])
+            that.shortWords.transform(opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex])
             +
             "</strong>"
           );
@@ -221,47 +223,46 @@ export class DashboardComponent implements OnInit {
         },
         categories: data.xaxisData
       },
+      yaxis: {
+        show: true,
+        labels: {
+          trim: false,
+          formatter: function(val:any) {
+            return (that.shortWords.transform(val));
+          },
+        },
+      },
       tooltip: {
         y: [
           {
-            //title: {
               formatter: function(val:any, opts:any) {
-                debugger
                 return (
-                  //val +
                   " - <strong>" +
-                  that.numDifferentiation(opts.w.globals.series[0][opts.dataPointIndex])
+                  that.shortWords.transform(opts.w.globals.series[0][opts.dataPointIndex])
                   +
                   "</strong>"
                 );
               },
-            //}
           },
           {
-           // title: {
               formatter: function(val:any, opts:any) {
                 return (
-                  //val +
                   " - <strong>" +
-                  that.numDifferentiation(opts.w.globals.series[1][opts.dataPointIndex])
+                  that.shortWords.transform(opts.w.globals.series[1][opts.dataPointIndex])
                   +
                   "</strong>"
                 );
               }
-           // }
           },
           {
-           // title: {
               formatter: function(val:any, opts:any) {
                 return (
-                  //val +
                   " - <strong>" +
-                  that.numDifferentiation(opts.w.globals.series[2][opts.dataPointIndex])
+                  that.shortWords.transform(opts.w.globals.series[2][opts.dataPointIndex])
                   +
                   "</strong>"
                 );
               }
-           // }
           }
         ]
       },
@@ -618,7 +619,6 @@ export class DashboardComponent implements OnInit {
       : false;
   }
   getMonthArrow(val: any,element:any) {
-    debugger
     let col = (val?.split(".")[0] || "");
     let year = ~~(val?.split(".")[1] || "0");
     if(this.selectedYearList?.length > 1){
@@ -688,15 +688,5 @@ export class DashboardComponent implements OnInit {
       this.displayedColumnsYear.push('Pharma');
     }
     this.displayedColumnsYear.push('Total');
-  }
-  numDifferentiation(val:any) {
-    if (val >= 10000000) {
-      val = (val / 10000000).toFixed(2) + ' Cr';
-    } else if (val >= 100000) {
-      val = (val / 100000).toFixed(2) + ' Lac';
-    } else if(val >= 1000) {
-      val = (val/1000).toFixed(2) + ' K';
-    }
-    return val;
   }
 }
