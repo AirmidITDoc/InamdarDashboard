@@ -113,6 +113,7 @@ export class DashboardComponent implements OnInit {
   // };
   chartList: any = ['Yearly', 'Monthly'];
   ddlChart: any = 'Monthly';
+
   constructor(private _toast: ToastService, private _cs: DashboardService) {
         // mohtly earnings chart
         this.monthlyChart = {
@@ -156,14 +157,16 @@ export class DashboardComponent implements OnInit {
             },
           },
         };
+
   }
 
   onChartChangeYear(event: any) {
     this.ddlChart = event?.value?.length > 0 ? event?.value : 'Monthly';
     let chartList = this.ddlChart == 'Monthly' ? this.montlyChartData : this.yearlyChartData;
-    this.chartLoad(chartList,this.ddlChart);
+    let that = this;
+    this.chartLoad(chartList,this.ddlChart,that);
   }
-  chartLoad(data:any,type:string){
+  chartLoad(data:any,type:string,that:any){
     this.chartOptions = {
       series: [
         {
@@ -200,7 +203,8 @@ export class DashboardComponent implements OnInit {
           return (
             val +
             " - <strong>" +
-            opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] +
+            that.numDifferentiation(opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex])
+            +
             "</strong>"
           );
         }
@@ -220,25 +224,44 @@ export class DashboardComponent implements OnInit {
       tooltip: {
         y: [
           {
-            title: {
-              formatter: function(val:any) {
-                return val ;
-              }
-            }
+            //title: {
+              formatter: function(val:any, opts:any) {
+                debugger
+                return (
+                  //val +
+                  " - <strong>" +
+                  that.numDifferentiation(opts.w.globals.series[0][opts.dataPointIndex])
+                  +
+                  "</strong>"
+                );
+              },
+            //}
           },
           {
-            title: {
-              formatter: function(val:any) {
-                return val;
+           // title: {
+              formatter: function(val:any, opts:any) {
+                return (
+                  //val +
+                  " - <strong>" +
+                  that.numDifferentiation(opts.w.globals.series[1][opts.dataPointIndex])
+                  +
+                  "</strong>"
+                );
               }
-            }
+           // }
           },
           {
-            title: {
-              formatter: function(val:any) {
-                return val;
+           // title: {
+              formatter: function(val:any, opts:any) {
+                return (
+                  //val +
+                  " - <strong>" +
+                  that.numDifferentiation(opts.w.globals.series[2][opts.dataPointIndex])
+                  +
+                  "</strong>"
+                );
               }
-            }
+           // }
           }
         ]
       },
@@ -567,7 +590,8 @@ export class DashboardComponent implements OnInit {
         yaxisData.push({month:element.BillMonth,year:element.BillYear, ipd:element.Ipd, opd:element.Opd, pharma:element.Pharma})
       });
       this.montlyChartData.yaxisData = yaxisData;
-      this.chartLoad(this.montlyChartData,this.ddlChart);
+      let that = this;
+      this.chartLoad(this.montlyChartData,this.ddlChart,that);
     } else if(type==4){
       // Chart Data Set
       this.yearlyChartData.xaxisData = response.Data.map((x:any) => x.BillYear);
