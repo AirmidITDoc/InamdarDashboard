@@ -61,7 +61,7 @@ export const DASHBOARD: Iroute = {
   },
 };
 export const USER_MANAGEMENT: Iroute = {
-  path: 'user-management',
+  path: 'category-wise',
   get fullUrl(): string {
     return `/${this.path}`;
   },

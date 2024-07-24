@@ -9,6 +9,32 @@ export const navItems: NavItem[] = [
     iconName: 'layout-dashboard',
     route: '/dashboard',
   },
+  {
+    displayName: 'Category Wise',
+    iconName: 'layout-dashboard',
+    route: '/category-wise',
+  },
+  {
+    displayName: 'Referring Case Breakup',
+    iconName: 'layout-dashboard',
+    route: '/dashboard',
+  },
+  {
+    displayName: 'BOR Comparison',
+    iconName: 'layout-dashboard',
+    route: '/dashboard',
+  },
+  {
+    displayName: 'Monthwise Summary',
+    iconName: 'layout-dashboard',
+    route: '/dashboard',
+  },
+  {
+    displayName: 'Dept Wise Combine summary',
+    iconName: 'layout-dashboard',
+    route: '/dashboard',
+  },
+  
   // {
   //   navCap: 'Ui Components',
   // },

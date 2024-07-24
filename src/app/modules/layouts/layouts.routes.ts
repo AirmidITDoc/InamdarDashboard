@@ -13,6 +13,11 @@ export const LAYOUTS_ROUTES: Routes = [
                 loadComponent: () =>
                   import('./pages/dashboard/dashboard.component').then((m) => m.DashboardComponent),
             },
+            {
+              path: DASHBOARD.path,
+              loadComponent: () =>
+                import('./pages/category-wise/category-wise.component').then((m) => m.CategoryWiseComponent),
+          },
         ],
   },
 ];

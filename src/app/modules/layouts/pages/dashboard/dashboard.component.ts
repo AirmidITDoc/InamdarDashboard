@@ -287,7 +287,7 @@ export class DashboardComponent implements OnInit {
     'September',
     'October',
     'November',
-    'Decembe',
+    'December',
   ];
   currentYear = new Date().getFullYear();
   range = (start: any, stop: any, step: any) =>
